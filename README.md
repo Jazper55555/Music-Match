@@ -1,6 +1,6 @@
-# Phase 3 CLI+ORM Project Template
+# Phase 3 Project - Music Assignments
 
-## Learning Goals
+<!-- ## Learning Goals
 
 - Discuss the basic directory structure of a CLI.
 - Outline the first steps in building a CLI.
@@ -169,4 +169,4 @@ Happy coding!
 
 ## Resources
 
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/) -->
