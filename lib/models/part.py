@@ -101,4 +101,24 @@ class Part:
 
         return [cls.instance_from_db(row) for row in rows]
     
+    @classmethod
+    def find_by_id(cls, id):
+        sql = '''
+            SELECT *
+            FROM parts
+            WHERE id = ?'''
+        
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        cls.instance_from_db(row) if row else None
+
+    @classmethod
+    def find_by_instrument(cls, instrument):
+        sql = '''
+            SELECT *
+            FROM parts
+            WHERE instrument is ?'''
+        
+        row = CURSOR.execute(sql, (instrument,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
     
