@@ -70,8 +70,23 @@ class Part:
             DELETE FROM parts
             WHERE id = ?'''
         
-        CURSOR.execute(sql, (self.id))
+        CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
         del type(self).all[self.id]
         self.id = None
+
+    @classmethod
+    def instance_from_db(cls, row):
+        part = cls.all.get(row[0])
+        if part:
+            part.song = row[1]
+            part.composer = row[2]
+            part.instrument = row[3]
+            part.student_id = row[4]
+        else:
+            part = cls(row[1], row[2], row[3], row[4])
+            part.id = row[0]
+            cls.all[part.id] = part
+
+        return part
