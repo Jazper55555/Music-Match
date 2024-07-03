@@ -83,3 +83,12 @@ class Student:
 
         return student
     
+    @classmethod
+    def get_all(cls):
+        sql = '''
+            SELECT *
+            FROM students'''
+        
+        rows = CURSOR.execute(sql).fetchall()
+
+        return [cls.instance_from_db(row) for row in rows]

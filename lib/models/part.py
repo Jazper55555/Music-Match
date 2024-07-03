@@ -90,3 +90,15 @@ class Part:
             cls.all[part.id] = part
 
         return part
+    
+    @classmethod
+    def get_all(cls):
+        sql = '''
+            SELECT *
+            FROM parts'''
+        
+        rows = CURSOR.execute(sql).fetchall()
+
+        return [cls.instance_from_db(row) for row in rows]
+    
+    
