@@ -121,4 +121,23 @@ class Part:
         row = CURSOR.execute(sql, (instrument,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
+    @classmethod
+    def find_by_song(cls, song):
+        sql = '''
+            SELECT *
+            FROM parts
+            WHERE song is ?'''
+        
+        rows = CURSOR.execute(sql, (song,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+    
+    @classmethod
+    def find_by_composer(cls, composer):
+        sql = '''
+            SELECT *
+            FROM parts
+            WHERE composer is ?'''
+        
+        rows = CURSOR.execute(sql, (composer,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
     
