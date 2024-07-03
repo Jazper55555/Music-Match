@@ -1,5 +1,5 @@
-from __init__ import CURSOR, CONN
-# from part import Part
+from models.__init__ import CURSOR, CONN
+# from models.part import Part
 
 class Student:
 
@@ -21,6 +21,14 @@ class Student:
             id INTEGER PRIMARY KEY,
             name TEXT,
             grade INTEGER)'''
+        
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    @classmethod
+    def drop_table(cls):
+        sql = '''
+            DROP TABLE IF EXISTS students'''
         
         CURSOR.execute(sql)
         CONN.commit()
