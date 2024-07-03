@@ -32,3 +32,40 @@ class Student:
         
         CURSOR.execute(sql)
         CONN.commit()
+
+    @classmethod
+    def create(cls, name, grade):
+        student = cls(name, grade)
+        student.save()
+        return student
+    
+    def save(self):
+        sql = '''
+            INSERT INTO students (name, grade)
+            VALUES (?, ?)'''
+        
+        CURSOR.execute(sql, (self.name, self.grade))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
+        type(self).all[self.id] = self
+
+    def update(self):
+        sql = '''
+            UPDATE students
+            SET name = ?, grade = ?
+            WHERE id = ?'''
+        
+        CURSOR.execute(sql, (self.name, self.grade, self.id))
+        CONN.commit()
+
+    def delete(self):
+        sql = '''
+            DELETE FROM students
+            WHERE id = ?'''
+        
+        CURSOR.execute(sql, (self.id))
+        CONN.commit()
+
+        del type(self).all[self.id]
+        self.id = None

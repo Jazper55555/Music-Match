@@ -38,3 +38,40 @@ class Part:
         
         CURSOR.execute(sql)
         CONN.commit()
+
+    @classmethod
+    def create(cls, song, composer, instrument, student_id):
+        part = cls(song, composer, instrument, student_id)
+        part.save()
+        return part
+    
+    def save(self):
+        sql = '''
+            INSERT INTO parts (song, composer, instrument, student_id)
+            VALUES (?, ?, ?, ?)'''
+        
+        CURSOR.execute(sql, (self.song, self.composer, self.instrument, self.student_id))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
+        type(self).all[self.id] = self
+
+    def update(self):
+        sql = '''
+            UPDATE parts
+            SET song = ?, composer = ?, instrument = ?, student_id = ?
+            WHERE id = ?'''
+        
+        CURSOR.execute(sql, (self.song, self.composer, self.instrument, self.student_id, self.id))
+        CONN.commit()
+
+    def delete(self):
+        sql = '''
+            DELETE FROM parts
+            WHERE id = ?'''
+        
+        CURSOR.execute(sql, (self.id))
+        CONN.commit()
+
+        del type(self).all[self.id]
+        self.id = None
