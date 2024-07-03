@@ -2,7 +2,9 @@
 # lib/debug.py
 
 from models.__init__ import CONN, CURSOR
-import ipdb
+from models.student import Student
+from models.part import Part
 
+import ipdb
 
 ipdb.set_trace()
