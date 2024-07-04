@@ -1,28 +1,28 @@
 from models.__init__ import CURSOR, CONN
-from models.student import Student
+# from models.student import Student
 
-class Part:
+class Piece:
 
     all = {}
     
-    def __init__(self, song, composer, instrument, student_id, id=None):
+    def __init__(self, piece, composer, instrument, student_id, id=None):
         
         self.id = id
-        self.song = song
+        self.piece = piece
         self.composer = composer
         self.instrument = instrument
         self.student_id = student_id
 
     def __repr__(self) -> str:
-        return (f'<Song: {self.song} by {self.composer} ' +
+        return (f'<Piece: {self.piece} by {self.composer}; ' +
                 f'Part: {self.instrument}>')
     
     @classmethod
     def create_table(cls):
         sql = '''
-            CREATE TABLE IF NOT EXISTS parts (
+            CREATE TABLE IF NOT EXISTS pieces (
             id INTEGER PRIMARY KEY,
-            song TEXT,
+            piece TEXT,
             composer TEXT,
             instrument TEXT,
             student_id INTEGER,
@@ -34,23 +34,23 @@ class Part:
     @classmethod
     def drop_table(cls):
         sql = '''
-            DROP TABLE IF EXISTS parts'''
+            DROP TABLE IF EXISTS pieces'''
         
         CURSOR.execute(sql)
         CONN.commit()
 
     @classmethod
-    def create(cls, song, composer, instrument, student_id):
-        part = cls(song, composer, instrument, student_id)
-        part.save()
-        return part
+    def create(cls, piece, composer, instrument, student_id):
+        piece = cls(piece, composer, instrument, student_id)
+        piece.save()
+        return piece
     
     def save(self):
         sql = '''
-            INSERT INTO parts (song, composer, instrument, student_id)
+            INSERT INTO pieces (piece, composer, instrument, student_id)
             VALUES (?, ?, ?, ?)'''
         
-        CURSOR.execute(sql, (self.song, self.composer, self.instrument, self.student_id))
+        CURSOR.execute(sql, (self.piece, self.composer, self.instrument, self.student_id))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -58,16 +58,16 @@ class Part:
 
     def update(self):
         sql = '''
-            UPDATE parts
-            SET song = ?, composer = ?, instrument = ?, student_id = ?
+            UPDATE pieces
+            SET piece = ?, composer = ?, instrument = ?, student_id = ?
             WHERE id = ?'''
         
-        CURSOR.execute(sql, (self.song, self.composer, self.instrument, self.student_id, self.id))
+        CURSOR.execute(sql, (self.piece, self.composer, self.instrument, self.student_id, self.id))
         CONN.commit()
 
     def delete(self):
         sql = '''
-            DELETE FROM parts
+            DELETE FROM pieces
             WHERE id = ?'''
         
         CURSOR.execute(sql, (self.id,))
@@ -78,24 +78,24 @@ class Part:
 
     @classmethod
     def instance_from_db(cls, row):
-        part = cls.all.get(row[0])
-        if part:
-            part.song = row[1]
-            part.composer = row[2]
-            part.instrument = row[3]
-            part.student_id = row[4]
+        piece = cls.all.get(row[0])
+        if piece:
+            piece.piece = row[1]
+            piece.composer = row[2]
+            piece.instrument = row[3]
+            piece.student_id = row[4]
         else:
-            part = cls(row[1], row[2], row[3], row[4])
-            part.id = row[0]
-            cls.all[part.id] = part
+            piece = cls(row[1], row[2], row[3], row[4])
+            piece.id = row[0]
+            cls.all[piece.id] = piece
 
-        return part
+        return piece
     
     @classmethod
     def get_all(cls):
         sql = '''
             SELECT *
-            FROM parts'''
+            FROM pieces'''
         
         rows = CURSOR.execute(sql).fetchall()
 
@@ -105,7 +105,7 @@ class Part:
     def find_by_id(cls, id):
         sql = '''
             SELECT *
-            FROM parts
+            FROM pieces
             WHERE id = ?'''
         
         row = CURSOR.execute(sql, (id,)).fetchone()
@@ -115,29 +115,28 @@ class Part:
     def find_by_instrument(cls, instrument):
         sql = '''
             SELECT *
-            FROM parts
+            FROM pieces
             WHERE instrument is ?'''
         
-        row = CURSOR.execute(sql, (instrument,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (instrument,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
     
     @classmethod
-    def find_by_song(cls, song):
+    def find_by_piece(cls, piece):
         sql = '''
             SELECT *
-            FROM parts
-            WHERE song is ?'''
+            FROM pieces
+            WHERE piece is ?'''
         
-        rows = CURSOR.execute(sql, (song,)).fetchall()
+        rows = CURSOR.execute(sql, (piece,)).fetchall()
         return [cls.instance_from_db(row) for row in rows]
     
     @classmethod
     def find_by_composer(cls, composer):
         sql = '''
             SELECT *
-            FROM parts
+            FROM pieces
             WHERE composer is ?'''
         
         rows = CURSOR.execute(sql, (composer,)).fetchall()
         return [cls.instance_from_db(row) for row in rows]
-    

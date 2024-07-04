@@ -1,25 +1,27 @@
 from models.__init__ import CURSOR, CONN
-# from models.part import Part
+# from models.piece import Piece
 
 class Student:
 
     all = {}
 
-    def __init__(self, name, grade, id=None):
+    def __init__(self, first_name, last_name, grade, id=None):
         
         self.id = id
-        self.name = name
+        self.first_name = first_name
+        self.last_name = last_name
         self.grade = grade
 
     def __repr__(self) -> str:
-        return (f'<Student: {self.name}, Grade: {self.grade}>')
+        return (f'<Student: {self.first_name} {self.last_name}, Grade: {self.grade}>')
     
     @classmethod
     def create_table(cls):
         sql = '''
             CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY,
-            name TEXT,
+            first_name TEXT,
+            last_name TEXT,
             grade INTEGER)'''
         
         CURSOR.execute(sql)
@@ -34,17 +36,17 @@ class Student:
         CONN.commit()
 
     @classmethod
-    def create(cls, name, grade):
-        student = cls(name, grade)
+    def create(cls, first_name, last_name, grade):
+        student = cls(first_name, last_name, grade)
         student.save()
         return student
     
     def save(self):
         sql = '''
-            INSERT INTO students (name, grade)
-            VALUES (?, ?)'''
+            INSERT INTO students (first_name, last_name, grade)
+            VALUES (?, ?, ?)'''
         
-        CURSOR.execute(sql, (self.name, self.grade))
+        CURSOR.execute(sql, (self.first_name, self.last_name, self.grade))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -53,10 +55,10 @@ class Student:
     def update(self):
         sql = '''
             UPDATE students
-            SET name = ?, grade = ?
+            SET first_name = ?, last_name = ?, grade = ?
             WHERE id = ?'''
         
-        CURSOR.execute(sql, (self.name, self.grade, self.id))
+        CURSOR.execute(sql, (self.first_name, self.last_name, self.grade, self.id))
         CONN.commit()
 
     def delete(self):
@@ -74,10 +76,11 @@ class Student:
     def instance_from_db(cls, row):
         student = cls.all.get(row[0])
         if student:
-            student.name = row[1]
-            student.grade = row[2]
+            student.first_name = row[1]
+            student.last_name = row [2]
+            student.grade = row[3]
         else:
-            student = cls(row[1], row[2])
+            student = cls(row[1], row[2], row[3])
             student.id = row[0]
             cls.all[student.id] = student
 
@@ -104,13 +107,23 @@ class Student:
         return cls.instance_from_db(row) if row else None
     
     @classmethod
-    def find_by_name(cls, name):
+    def find_by_first_name(cls, first_name):
         sql = '''
             SELECT *
             FROM students
-            WHERE name is ?'''
+            WHERE first_name is ?'''
         
-        row = CURSOR.execute(sql, (name,)).fetchone()
+        row = CURSOR.execute(sql, (first_name,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_last_name(cls, last_name):
+        sql = '''
+            SELECT *
+            FROM students
+            WHERE last_name is ?'''
+        
+        row = CURSOR.execute(sql, (last_name,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
     @classmethod
@@ -122,3 +135,5 @@ class Student:
         
         row = CURSOR.execute(sql, (grade,)).fetchone()
         return cls.instance_from_db(row) if row else None
+    
+    
