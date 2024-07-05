@@ -1,6 +1,4 @@
 from models.__init__ import CURSOR, CONN
-# from models.student import Student
-# from models.part import Part
 
 class Piece:
 

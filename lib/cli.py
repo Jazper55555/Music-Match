@@ -24,6 +24,7 @@ def greeting():
     print('Please select an option below (using the # pad) to get started:')
     print('')
 
+
 def main():
     option = 0
     while option != 3:

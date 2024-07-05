@@ -1,6 +1,4 @@
 from models.__init__ import CURSOR, CONN
-from models.student import Student
-from models.piece import Piece
 
 class Part:
 
@@ -120,9 +118,6 @@ class Part:
         
         rows = CURSOR.execute(sql, (student_id,)).fetchall()
         return [cls.instance_from_db(row) for row in rows]
-        # for instrument in student_objects:
-        #     piece_title = Piece.find_by_id(instrument.piece_id)
-        #     return f'Piece: {piece_title.title} by {piece_title.composer}; Part: {instrument.instrument}'
     
     @classmethod
     def find_by_student_and_piece_id(cls, student_id, piece_id):
@@ -133,13 +128,3 @@ class Part:
         
         row = CURSOR.execute(sql, (student_id, piece_id)).fetchone()
         return cls.instance_from_db(row) if row else None
-    
-    # @classmethod
-    # def find_by_composer(cls, composer):
-    #     sql = '''
-    #         SELECT *
-    #         FROM pieces
-    #         WHERE composer is ?'''
-        
-    #     rows = CURSOR.execute(sql, (composer,)).fetchall()
-    #     return [cls.instance_from_db(row) for row in rows]

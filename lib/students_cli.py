@@ -4,6 +4,7 @@ from models.student import Student
 from models.part import Part
 from models.piece import Piece
 
+
 def students_menu():
     print(Figlet(font='mini').renderText('Students'))
     print("1. View all students")
@@ -16,6 +17,7 @@ def students_menu():
     print("")
     print('5. Go back to Main Menu')
     print("")
+
 
 def view_students():
     students_list = Student.get_all()

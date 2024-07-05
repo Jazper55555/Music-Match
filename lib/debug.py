@@ -5,6 +5,7 @@ from models.student import Student
 from models.piece import Piece
 from models.part import Part
 
+
 def reset_data():
     Student.drop_table()
     Student.create_table()
@@ -15,6 +16,7 @@ def reset_data():
 
 reset_data()
 
+# seed data for database
 luca = Student.create('Luca', 'Saldana', 6)
 andrea = Student.create('Andrea', 'Saldana', 12)
 jazz = Student.create('Jazz', 'Man', 10)

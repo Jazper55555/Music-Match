@@ -1,6 +1,5 @@
 # lib/parts_cli.py
 from models.piece import Piece
-from models.student import Student
 from pyfiglet import Figlet
 
 
