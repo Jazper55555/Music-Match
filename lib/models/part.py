@@ -1,6 +1,6 @@
 from models.__init__ import CURSOR, CONN
-# from models.student import Student
-# from models.piece import Piece
+from models.student import Student
+from models.piece import Piece
 
 class Part:
 
@@ -109,27 +109,30 @@ class Part:
             WHERE id = ?'''
         
         row = CURSOR.execute(sql, (id,)).fetchone()
-        cls.instance_from_db(row) if row else None
+        return cls.instance_from_db(row) if row else None
 
-    # @classmethod
-    # def find_by_instrument(cls, instrument):
-    #     sql = '''
-    #         SELECT *
-    #         FROM pieces
-    #         WHERE instrument is ?'''
+    @classmethod
+    def student_parts(cls, student_id):
+        sql = '''
+            SELECT *
+            FROM parts
+            WHERE student_id = ?'''
         
-    #     rows = CURSOR.execute(sql, (instrument,)).fetchall()
-    #     return [cls.instance_from_db(row) for row in rows]
+        rows = CURSOR.execute(sql, (student_id,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+        # for instrument in student_objects:
+        #     piece_title = Piece.find_by_id(instrument.piece_id)
+        #     return f'Piece: {piece_title.title} by {piece_title.composer}; Part: {instrument.instrument}'
     
-    # @classmethod
-    # def find_by_piece(cls, piece):
-    #     sql = '''
-    #         SELECT *
-    #         FROM pieces
-    #         WHERE piece is ?'''
+    @classmethod
+    def find_by_student_and_piece_id(cls, student_id, piece_id):
+        sql = '''
+            SELECT *
+            FROM parts
+            WHERE student_id = ? and piece_id = ?'''
         
-    #     rows = CURSOR.execute(sql, (piece,)).fetchall()
-    #     return [cls.instance_from_db(row) for row in rows]
+        row = CURSOR.execute(sql, (student_id, piece_id)).fetchone()
+        return cls.instance_from_db(row) if row else None
     
     # @classmethod
     # def find_by_composer(cls, composer):

@@ -90,7 +90,6 @@ class Piece:
             FROM pieces'''
         
         rows = CURSOR.execute(sql).fetchall()
-
         return [cls.instance_from_db(row) for row in rows]
     
     @classmethod
@@ -104,7 +103,7 @@ class Piece:
         return cls.instance_from_db(row) if row else None
     
     @classmethod
-    def find_by_piece(cls, title):
+    def find_by_title(cls, title):
         sql = '''
             SELECT *
             FROM pieces

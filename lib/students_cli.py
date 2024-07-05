@@ -1,9 +1,10 @@
 # lib/students_cli.py
 from pyfiglet import Figlet
 from models.student import Student
+from models.part import Part
+from models.piece import Piece
 
 def students_menu():
-    print("")
     print(Figlet(font='mini').renderText('Students'))
     print("1. View all students")
     print("")
@@ -17,14 +18,13 @@ def students_menu():
     print("")
 
 def view_students():
-    print('')
     students_list = Student.get_all()
     for student in students_list:
             print('')
-            print(student)
+            print(f"\033[1m{student}\033[0m")   
 
     students_menu()
-    
+
 
 def select_students():
     print('')
@@ -54,11 +54,14 @@ def select_students():
         while student_choices != 4:
             student_choices = int(input('Option: '))
             if student_choices == 1:
-                update_student(student_id)
+                update_student(chosen_student.id)
+                return
             elif student_choices == 2:
-                pass
+                display_student_parts(chosen_student.id)
+                return
             elif student_choices == 3:
-                pass
+                update_parts(chosen_student.id)
+                return
             elif student_choices == 4:
                 students_menu()
 
@@ -67,9 +70,9 @@ def update_student(student_id):
     print('')
     chosen_student = Student.find_by_id(student_id)
     if chosen_student:
-        first_name = input('Enter the students first name: ')
-        last_name = input('Enter the students last name: ')
-        grade = input('Enter the students grade: ')
+        first_name = input('Enter the students updated first name: ')
+        last_name = input('Enter the students updated last name: ')
+        grade = input('Enter the students updated grade: ')
 
         chosen_student.first_name = first_name
         chosen_student.last_name = last_name
@@ -85,6 +88,46 @@ def update_student(student_id):
 
     students_menu()
 
+
+def display_student_parts(student_id):
+    chosen_student = Student.find_by_id(student_id)
+    if chosen_student:
+        parts = Part.student_parts(student_id)
+        for part in parts:
+            piece_title = Piece.find_by_id(part.piece_id)
+            print('')
+            print(f"\033[1mPiece: {piece_title.title} by {piece_title.composer}; Part: {part.instrument}\033[0m")   
+
+    students_menu()
+
+
+def update_parts(student_id):
+    print('')
+    print('Choose from the following pieces:')
+    print('')
+    pieces_list = Part.student_parts(student_id)
+    for piece in pieces_list:
+        piece_title = Piece.find_by_id(piece.piece_id)
+        print(f"\033[1m{piece_title.id}. Piece: {piece_title.title} by {piece_title.composer}; Part: {piece.instrument}\033[0m")   
+    
+    print('')
+    piece_id = int(input('Enter the piece id: '))
+    update_instrument = input('Update the part: ')
+    chosen_part = Part.find_by_student_and_piece_id(student_id, piece_id)
+
+    if chosen_part:
+        chosen_part.instrument = update_instrument
+
+        print('')
+        try:
+            chosen_part.update()
+            print('')
+            print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument}\033[0m")   
+        except Exception as exc:
+            print('Error updating part: ', exc) 
+
+    students_menu()
+    
 
 def add_student():
     print('')
@@ -115,7 +158,7 @@ def delete_student():
     if student := Student.find_by_id(id_):
         student.delete()
         print('')
-        print("\033[1mStudent successfully deleted\033[0m")   
+        print(f"\033[1mStudent {student.first_name} {student.last_name} successfully deleted\033[0m")   
     else:
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   

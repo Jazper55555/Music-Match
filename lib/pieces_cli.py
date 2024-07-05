@@ -5,7 +5,7 @@ from pyfiglet import Figlet
 
 
 def pieces_menu():
-    print("")
+    print('')
     print(Figlet(font='mini').renderText('Pieces'))
     print("1. View all pieces")
     print("")
@@ -24,8 +24,39 @@ def view_pieces():
     all_pieces = Piece.get_all()
     for piece in all_pieces:
         print('')
-        print(piece)
+        print(f"\033[1m{piece}\033[0m")
     
+    pieces_menu()
+
+
+def update_piece():
+    print('')
+    print('Choose from the following pieces:')
+    print('')
+    pieces_list = Piece.get_all()
+    for i, piece in enumerate(pieces_list, start=1):
+        print(f'{i}. {piece}')
+    
+    print('')
+    piece_id = int(input("Enter the piece id: "))
+    print('')
+    chosen_piece = Piece.find_by_id(piece_id)
+    print(f"\033[1m{chosen_piece}\033[0m")   
+    print('')
+    update_title = input('Enter the pieces updated title: ')
+    update_composer = input('Enter the pieces updated composer: ')
+
+    print('')
+    chosen_piece.title = update_title
+    chosen_piece.composer = update_composer
+    chosen_piece.update()
+
+    try:
+        print('')
+        print(f"\033[1mSuccessfully updated {chosen_piece}\033[0m")   
+    except Exception as exc:
+        print('Error updating piece: ', exc)
+
     pieces_menu()
 
 
@@ -57,7 +88,7 @@ def delete_piece():
     if piece := Piece.find_by_id(id_):
         piece.delete()
         print('')
-        print("\033[1mPiece successfully deleted\033[0m")   
+        print(f"\033[1mPiece {piece.title} successfully deleted\033[0m")   
     else:
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   

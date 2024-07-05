@@ -4,7 +4,8 @@ from pieces_cli import (
     pieces_menu,
     add_piece,
     view_pieces,
-    delete_piece)
+    delete_piece,
+    update_piece)
 from students_cli import (
     students_menu, 
     view_students, 
@@ -57,7 +58,7 @@ def main():
                 if pieces_choice == 1:
                     view_pieces()
                 elif pieces_choice == 2:
-                    pass
+                    update_piece()
                 elif pieces_choice == 3:
                     add_piece()
                 elif pieces_choice == 4:
