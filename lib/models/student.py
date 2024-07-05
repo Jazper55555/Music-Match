@@ -1,5 +1,6 @@
 from models.__init__ import CURSOR, CONN
 # from models.piece import Piece
+# from models.part import Part
 
 class Student:
 
@@ -135,5 +136,4 @@ class Student:
         
         row = CURSOR.execute(sql, (grade,)).fetchone()
         return cls.instance_from_db(row) if row else None
-    
     

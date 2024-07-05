@@ -1,33 +1,27 @@
 from models.__init__ import CURSOR, CONN
 # from models.student import Student
+# from models.part import Part
 
 class Piece:
 
     all = {}
     
-    def __init__(self, piece, composer, instrument, student_id, id=None):
+    def __init__(self, title, composer, id=None):
         
         self.id = id
-        self.piece = piece
+        self.title = title
         self.composer = composer
-        self.instrument = instrument
-        self.student_id = student_id
 
     def __repr__(self) -> str:
-        return (f'<Piece: {self.piece} by {self.composer}; ' +
-                f'Part: {self.instrument}>')
-    
+        return (f'Piece: {self.title} by {self.composer}')    
     @classmethod
     def create_table(cls):
         sql = '''
             CREATE TABLE IF NOT EXISTS pieces (
             id INTEGER PRIMARY KEY,
-            piece TEXT,
-            composer TEXT,
-            instrument TEXT,
-            student_id INTEGER,
-            FOREIGN KEY (student_id) REFERENCES students(id))'''
-        
+            title TEXT,
+            composer TEXT)'''
+                
         CURSOR.execute(sql)
         CONN.commit()
     
@@ -40,17 +34,17 @@ class Piece:
         CONN.commit()
 
     @classmethod
-    def create(cls, piece, composer, instrument, student_id):
-        piece = cls(piece, composer, instrument, student_id)
+    def create(cls, title, composer):
+        piece = cls(title, composer)
         piece.save()
         return piece
     
     def save(self):
         sql = '''
-            INSERT INTO pieces (piece, composer, instrument, student_id)
-            VALUES (?, ?, ?, ?)'''
+            INSERT INTO pieces (title, composer)
+            VALUES (?, ?)'''
         
-        CURSOR.execute(sql, (self.piece, self.composer, self.instrument, self.student_id))
+        CURSOR.execute(sql, (self.title, self.composer))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -59,10 +53,10 @@ class Piece:
     def update(self):
         sql = '''
             UPDATE pieces
-            SET piece = ?, composer = ?, instrument = ?, student_id = ?
+            SET title = ?, composer = ?
             WHERE id = ?'''
         
-        CURSOR.execute(sql, (self.piece, self.composer, self.instrument, self.student_id, self.id))
+        CURSOR.execute(sql, (self.title, self.composer, self.id))
         CONN.commit()
 
     def delete(self):
@@ -80,12 +74,10 @@ class Piece:
     def instance_from_db(cls, row):
         piece = cls.all.get(row[0])
         if piece:
-            piece.piece = row[1]
+            piece.title = row[1]
             piece.composer = row[2]
-            piece.instrument = row[3]
-            piece.student_id = row[4]
         else:
-            piece = cls(row[1], row[2], row[3], row[4])
+            piece = cls(row[1], row[2])
             piece.id = row[0]
             cls.all[piece.id] = piece
 
@@ -109,26 +101,16 @@ class Piece:
             WHERE id = ?'''
         
         row = CURSOR.execute(sql, (id,)).fetchone()
-        cls.instance_from_db(row) if row else None
-
-    @classmethod
-    def find_by_instrument(cls, instrument):
-        sql = '''
-            SELECT *
-            FROM pieces
-            WHERE instrument is ?'''
-        
-        rows = CURSOR.execute(sql, (instrument,)).fetchall()
-        return [cls.instance_from_db(row) for row in rows]
+        return cls.instance_from_db(row) if row else None
     
     @classmethod
-    def find_by_piece(cls, piece):
+    def find_by_piece(cls, title):
         sql = '''
             SELECT *
             FROM pieces
-            WHERE piece is ?'''
+            WHERE title is ?'''
         
-        rows = CURSOR.execute(sql, (piece,)).fetchall()
+        rows = CURSOR.execute(sql, (title,)).fetchall()
         return [cls.instance_from_db(row) for row in rows]
     
     @classmethod

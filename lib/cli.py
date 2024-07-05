@@ -1,6 +1,10 @@
 # lib/cli.py
 from pyfiglet import Figlet 
-from pieces_cli import pieces
+from pieces_cli import (
+    pieces_menu,
+    add_piece,
+    view_pieces,
+    delete_piece)
 from students_cli import (
     students_menu, 
     view_students, 
@@ -34,7 +38,6 @@ def main():
                 students_choice = int(input('Option: '))
                 if students_choice == 1:
                     view_students()
-                    students_menu()
                 elif students_choice == 2:
                     select_students()
                 elif students_choice == 3:
@@ -42,25 +45,25 @@ def main():
                 elif students_choice == 4:
                     delete_student()
                 elif students_choice == 5:
-                    menu()
+                    pass
                 else:
                     print("")
                     print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
 
         elif option == "2":
+            pieces_menu()
             while pieces_choice != 5:
-                pieces()
                 pieces_choice = int(input('Option: '))
                 if pieces_choice == 1:
-                    pass
+                    view_pieces()
                 elif pieces_choice == 2:
                     pass
                 elif pieces_choice == 3:
-                    pass
+                    add_piece()
                 elif pieces_choice == 4:
-                    pass
+                    delete_piece()
                 elif pieces_choice == 5:
-                    menu()
+                    pass
                 else:
                     print("")
                     print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
