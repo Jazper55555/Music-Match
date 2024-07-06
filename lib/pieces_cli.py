@@ -4,7 +4,6 @@ from pyfiglet import Figlet
 
 
 def pieces_menu():
-    print('')
     print(Figlet(font='mini').renderText('Pieces'))
     print("1. View all pieces")
     print("")

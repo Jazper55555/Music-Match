@@ -35,40 +35,48 @@ def main():
         pieces_choice = 0
 
         if option == "1":
-            students_menu()
             while students_choice != 5:
-                students_choice = int(input('Option: '))
-                if students_choice == 1:
-                    view_students()
-                elif students_choice == 2:
-                    select_students()
-                elif students_choice == 3:
-                    add_student()
-                elif students_choice == 4:
-                    delete_student()
-                elif students_choice == 5:
-                    pass
-                else:
+                try:
+                    students_menu()
+                    students_choice = int(input('Option: '))
+                    if students_choice < 1 or students_choice > 5:
+                        raise ValueError
+                    if students_choice == 1:
+                        view_students()
+                    elif students_choice == 2:
+                        select_students()
+                    elif students_choice == 3:
+                        add_student()
+                    elif students_choice == 4:
+                        delete_student()
+                    elif students_choice == 5:
+                        pass
+                except Exception:
                     print("")
-                    print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
+                    print("\033[1mInvalid Option - Try typing a listed number option\033[0m") 
+                    print('')  
 
         elif option == "2":
-            pieces_menu()
             while pieces_choice != 5:
-                pieces_choice = int(input('Option: '))
-                if pieces_choice == 1:
-                    view_pieces()
-                elif pieces_choice == 2:
-                    update_piece()
-                elif pieces_choice == 3:
-                    add_piece()
-                elif pieces_choice == 4:
-                    delete_piece()
-                elif pieces_choice == 5:
-                    pass
-                else:
+                try:
+                    pieces_menu()
+                    pieces_choice = int(input('Option: '))
+                    if pieces_choice < 1 or pieces_choice > 5:
+                        raise ValueError
+                    if pieces_choice == 1:
+                        view_pieces()
+                    elif pieces_choice == 2:
+                        update_piece()
+                    elif pieces_choice == 3:
+                        add_piece()
+                    elif pieces_choice == 4:
+                        delete_piece()
+                    elif pieces_choice == 5:
+                        pass
+                except Exception:
                     print("")
-                    print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
+                    print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  
+                    print('') 
 
         elif option == "3":
             exit_program()
