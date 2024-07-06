@@ -16,6 +16,41 @@ class Part:
     def __repr__(self) -> str:
         return (f'<Instrument: {self.instrument}; student_id: {self.student_id}; piece_id: {self.piece_id}>')
     
+
+    @property
+    def instrument(self):
+        return self._instrument
+    
+    @instrument.setter
+    def instrument(self, instrument):
+        if isinstance(instrument, str) and len(instrument) > 0:
+            self._instrument = instrument
+        else:
+            raise Exception(f"\033[1mInstrument must be text with at least 1 character\033[0m") 
+        
+    @property
+    def student_id(self):
+        return self._student_id
+    
+    @student_id.setter
+    def student_id(self, student_id):
+        if isinstance(student_id, int) and student_id > 0:
+            self._student_id = student_id
+        else:
+            raise Exception(f"\033[1mStudent id must be a number greater than 0\033[0m")
+        
+    @property
+    def piece_id(self):
+        return self._piece_id
+    
+    @piece_id.setter
+    def piece_id(self, piece_id):
+        if isinstance(piece_id, int) and piece_id > 0:
+            self._piece_id = piece_id
+        else:
+            raise Exception(f"\033[1mPiece id must be a number greater than 0\033[0m")
+
+
     @classmethod
     def create_table(cls):
         sql = '''

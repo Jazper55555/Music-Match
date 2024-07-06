@@ -66,9 +66,6 @@ def select_students():
                 return
             elif student_choices == 4:
                 students_menu()
-            else:
-                print("")
-                print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
 
 
 def update_student(student_id):

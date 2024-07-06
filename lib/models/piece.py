@@ -11,7 +11,32 @@ class Piece:
         self.composer = composer
 
     def __repr__(self) -> str:
-        return (f'Piece: {self.title} by {self.composer}')    
+        return (f'Piece: {self.title} by {self.composer}')  
+
+
+    @property
+    def title(self):
+        return self._title
+    
+    @title.setter
+    def title(self, title):
+        if isinstance(title, str) and len(title) > 0:
+            self._title = title
+        else:
+            raise Exception(f"\033[1mTitle must be text with at least 1 character\033[0m") 
+
+    @property
+    def composer(self):
+        return self._composer
+    
+    @composer.setter
+    def composer(self, composer):
+        if isinstance(composer, str) and len(composer) > 0:
+            self._composer = composer
+        else:
+            raise Exception(f"\033[1mComposer must be text with at least 1 character\033[0m") 
+
+
     @classmethod
     def create_table(cls):
         sql = '''
