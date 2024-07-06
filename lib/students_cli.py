@@ -66,23 +66,26 @@ def select_students():
                 return
             elif student_choices == 4:
                 students_menu()
+            else:
+                print("")
+                print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
 
 
 def update_student(student_id):
     print('')
     chosen_student = Student.find_by_id(student_id)
     if chosen_student:
-        first_name = input('Enter the students updated first name: ')
-        last_name = input('Enter the students updated last name: ')
-        grade = input('Enter the students updated grade: ')
-
-        chosen_student.first_name = first_name
-        chosen_student.last_name = last_name
-        chosen_student.grade = grade
-
-        chosen_student.update()
-
         try:
+            first_name = input('Enter the students updated first name: ')
+            last_name = input('Enter the students updated last name: ')
+            grade = input('Enter the students updated grade: ')
+
+            chosen_student.first_name = first_name
+            chosen_student.last_name = last_name
+            chosen_student.grade = grade
+
+            chosen_student.update()
+
             print('')
             print(f"\033[1mSuccessfully updated student: {chosen_student}\033[0m")   
         except Exception as exc:
@@ -133,16 +136,17 @@ def update_parts(student_id):
 
 def add_student():
     print('')
-    new_first_name = input('Enter the new students first name: ')
-    new_last_name = input('Enter the new students last name: ')
-    new_grade = input('Enter the new students grade level: ')
-
-    new_student = Student.create(new_first_name, new_last_name, new_grade)
     try:
+        new_first_name = input('Enter the new students first name: ')
+        new_last_name = input('Enter the new students last name: ')
+        new_grade = input('Enter the new students grade level: ')
+
+        new_student = Student.create(new_first_name, new_last_name, new_grade)
         print('')
         print(f"\033[1mSuccessfully created new student: {new_student}\033[0m")   
     except Exception as exc:
-        print('Error creating student: ', exc)
+        print('')
+        print(f"\033[1mError creating student: \033[0m", exc)   
 
     students_menu()
 

@@ -14,6 +14,41 @@ class Student:
     def __repr__(self) -> str:
         return (f'<Student: {self.first_name} {self.last_name}, Grade: {self.grade}>')
     
+
+    @property
+    def first_name(self):
+        return self._first_name
+    
+    @first_name.setter
+    def first_name(self, first_name):
+        if isinstance(first_name, str) and len(first_name) > 0:
+            self._first_name = first_name
+        else:
+            raise Exception(f"\033[1mFirst name must be text with at least 1 character\033[0m")
+        
+    @property
+    def last_name(self):
+        return self._last_name
+    
+    @last_name.setter
+    def last_name(self, last_name):
+        if isinstance(last_name, str) and len(last_name) > 0:
+            self._last_name = last_name
+        else:
+            raise Exception(f"\033[1mLast name must be text with at least 1 character\033[0m")
+        
+    @property
+    def grade(self):
+        return self._grade
+    
+    @grade.setter
+    def grade(self, grade):
+        if isinstance(grade, int) and 6<= grade <= 12:
+            self._grade = grade
+        else:
+            raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
+    
+
     @classmethod
     def create_table(cls):
         sql = '''
