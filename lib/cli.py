@@ -9,9 +9,10 @@ from pieces_cli import (
 from students_cli import (
     students_menu, 
     view_students, 
-    select_students, 
     add_student, 
     delete_student)
+from select_student_cli import (
+    select_students)
 
 
 def greeting():

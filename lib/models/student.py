@@ -45,6 +45,8 @@ class Student:
     def grade(self, grade):
         if isinstance(grade, int) and 6<= grade <= 12:
             self._grade = grade
+        elif grade == None:
+            raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
         else:
             raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
     

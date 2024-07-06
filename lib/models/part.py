@@ -36,6 +36,8 @@ class Part:
     def student_id(self, student_id):
         if isinstance(student_id, int) and student_id > 0:
             self._student_id = student_id
+        elif student_id == None:
+            raise Exception(f"\033[1mStudent id must be a number greater than 0\033[0m")
         else:
             raise Exception(f"\033[1mStudent id must be a number greater than 0\033[0m")
         
@@ -47,6 +49,8 @@ class Part:
     def piece_id(self, piece_id):
         if isinstance(piece_id, int) and piece_id > 0:
             self._piece_id = piece_id
+        elif piece_id == None:
+            raise Exception(f"\033[1mPiece id must be a number greater than 0\033[0m")
         else:
             raise Exception(f"\033[1mPiece id must be a number greater than 0\033[0m")
 
