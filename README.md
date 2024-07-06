@@ -170,19 +170,3 @@ Happy coding!
 ## Resources
 
 - [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/) -->
-
-Take a look at the directory structure:
-
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── models.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
-```
