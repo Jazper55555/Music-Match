@@ -50,10 +50,14 @@ def select_students():
         print('')
         print('3. Update parts')
         print('')
-        print('4. Go back to Students Menu')
+        print('4. Add a part')
+        print('')
+        print('5. Delete a part')
+        print('')
+        print('6. Go back to Students Menu')
         print('')
 
-        while student_choices != 4:
+        while student_choices != 6:
             student_choices = int(input('Option: '))
             if student_choices == 1:
                 update_student(chosen_student.id)
@@ -65,6 +69,12 @@ def select_students():
                 update_parts(chosen_student.id)
                 return
             elif student_choices == 4:
+                add_part(chosen_student.id)
+                return
+            elif student_choices == 5:
+                delete_part(chosen_student.id)
+                return
+            elif student_choices == 6:
                 students_menu()
 
 
@@ -120,7 +130,6 @@ def update_parts(student_id):
     if chosen_part:
         chosen_part.instrument = update_instrument
 
-        print('')
         try:
             chosen_part.update()
             print('')
@@ -129,7 +138,56 @@ def update_parts(student_id):
             print('Error updating part: ', exc) 
 
     students_menu()
-    
+
+
+def add_part(student_id):
+    try:
+        print('')
+        print('Choose from the following pieces:')
+        print('')
+        pieces_list = Piece.get_all()
+        for i, piece in enumerate(pieces_list, start=1):
+            print(f'{i}. {piece}')
+        print('')
+        piece_id = int(input('Enter the piece id: '))
+        
+        print('')
+        instrument_choice = input("Enter the instrument (part) assignment: ")
+
+        print('')
+        new_part = Part.create(instrument_choice, student_id, piece_id)
+
+        print('')
+        print(f"\033[1mSuccessfully created new part: {new_part}\033[0m") 
+    except Exception as exc:
+        print('')
+        print(f"\033[1mError creating part: \033[0m", exc)
+
+    students_menu()   
+
+
+def delete_part(student_id):
+    try:
+        print('')
+        print('Choose from the following parts:')
+        print('')
+        parts = Part.student_parts(student_id)
+        for part in parts:
+            piece_title = Piece.find_by_id(part.piece_id)
+            print(f"{part.id}. Piece: {piece_title.title} by {piece_title.composer}; Part: {part.instrument}") 
+
+        print('')
+        part_id = int(input('Enter the part id: '))
+        part = Part.find_by_id(part_id)
+        part.delete()
+
+        print('')
+        print(f"\033[1mSuccessfully deleted Part: {part.instrument}; Piece: {piece_title.title} by {piece_title.composer}\033[0m") 
+    except Exception:
+        print('')
+        print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
+
+    students_menu()
 
 def add_student():
     print('')
