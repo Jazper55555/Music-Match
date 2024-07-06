@@ -19,7 +19,7 @@ def greeting():
     print(Figlet(font='big').renderText('Music Assignments'))
     print('Welcome!')
     print('')
-    print('With this program, you can easily keep track of your students and their part assignments.')
+    print('With this program, you can easily keep track of your students, pieces, and part assignments.')
     print('')
     print('Please select an option below (using the # pad) to get started:')
     print('')
@@ -76,7 +76,6 @@ def main():
                 except Exception:
                     print("")
                     print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  
-                    print('') 
 
         elif option == "3":
             exit_program()

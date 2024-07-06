@@ -26,7 +26,7 @@ class Part:
         if isinstance(instrument, str) and len(instrument) > 0:
             self._instrument = instrument
         else:
-            raise Exception(f"\033[1mInstrument must be text with at least 1 character\033[0m") 
+            raise Exception(f"\033[1mInstrument (part) must be text with at least 1 character\033[0m") 
         
     @property
     def student_id(self):

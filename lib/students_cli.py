@@ -25,57 +25,83 @@ def view_students():
             print('')
             print(f"\033[1m{student}\033[0m")   
 
-    students_menu()
+    print('')
 
 
-def select_students():
+def select_students(chosen_student=None):
     print('')
     print('Select from the following:')
     print('')
     students_list = Student.get_all()
-    for i, student in enumerate(students_list, start=1):
-            print(f'{i}. {student.first_name} {student.last_name}')
+    for student in students_list:
+            print(f'{student.id}. {student.first_name} {student.last_name}')
     
     print('')
-    student_id = int(input('Option: '))
-    chosen_student = Student.find_by_id(student_id)
-    student_choices = 0
-    if chosen_student:
-        print('')
-        print(f"\033[1m{chosen_student}\033[0m")   
-        print('')
-        print('1. Update student')
-        print('')
-        print('2. View pieces/parts')
-        print('')
-        print('3. Update parts')
-        print('')
-        print('4. Add a part')
-        print('')
-        print('5. Delete a part')
-        print('')
-        print('6. Go back to Students Menu')
-        print('')
+    print('0. Go back to Students Menu')
+    print('')
+    try:
+        if chosen_student is None:
+            student_id = int(input('Option: '))
+            if student_id == 0:
+                return
+            if not any(student.id == student_id for student in students_list):
+                raise ValueError
+            chosen_student = Student.find_by_id(student_id)
 
+        student_choices = 0
         while student_choices != 6:
-            student_choices = int(input('Option: '))
-            if student_choices == 1:
-                update_student(chosen_student.id)
-                return
-            elif student_choices == 2:
-                display_student_parts(chosen_student.id)
-                return
-            elif student_choices == 3:
-                update_parts(chosen_student.id)
-                return
-            elif student_choices == 4:
-                add_part(chosen_student.id)
-                return
-            elif student_choices == 5:
-                delete_part(chosen_student.id)
-                return
-            elif student_choices == 6:
-                students_menu()
+            if chosen_student:
+                try:
+                    print('')
+                    print(f"\033[1m{chosen_student}\033[0m")   
+                    print('')
+                    print('1. Update student')
+                    print('')
+                    print('2. View pieces/parts')
+                    print('')
+                    print('3. Update parts')
+                    print('')
+                    print('4. Add a part')
+                    print('')
+                    print('5. Delete a part')
+                    print('')
+                    print('6. Go back to Students Menu')
+                    print('')
+
+                    student_choices = int(input('Option: '))
+                    if student_choices < 1 or student_choices > 6:
+                        raise ValueError
+                    if student_choices == 1:
+                        update_student(chosen_student.id)
+                        return
+                    elif student_choices == 2:
+                        display_student_parts(chosen_student.id)
+                        return
+                    elif student_choices == 3:
+                        update_parts(chosen_student.id)
+                        return
+                    elif student_choices == 4:
+                        add_part(chosen_student.id)
+                        return
+                    elif student_choices == 5:
+                        delete_part(chosen_student.id)
+                        return
+                    elif student_choices == 6:
+                        return
+                    else:
+                        print('')
+                        print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m") 
+                        print('')
+
+                except ValueError:
+                    print('')
+                    print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m") 
+                    select_students(chosen_student)
+
+    except ValueError:
+        print('')
+        print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m") 
+        select_students()  
 
 
 def update_student(student_id):
@@ -96,9 +122,8 @@ def update_student(student_id):
             print('')
             print(f"\033[1mSuccessfully updated student: {chosen_student}\033[0m")   
         except Exception as exc:
-            print('Error updating student: ', exc)
-
-    students_menu()
+            print('')
+            print(f"\033[1mError updating student:\033[0m", exc)   
 
 
 def display_student_parts(student_id):
@@ -115,7 +140,7 @@ def display_student_parts(student_id):
 
 def update_parts(student_id):
     print('')
-    print('Choose from the following pieces:')
+    print('Choose from the following pieces to update:')
     print('')
     pieces_list = Part.student_parts(student_id)
     for piece in pieces_list:
@@ -127,27 +152,25 @@ def update_parts(student_id):
     update_instrument = input('Update the part: ')
     chosen_part = Part.find_by_student_and_piece_id(student_id, piece_id)
 
-    if chosen_part:
-        chosen_part.instrument = update_instrument
+    try:
+        if chosen_part:
+            chosen_part.instrument = update_instrument
 
-        try:
             chosen_part.update()
             print('')
             print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument}\033[0m")   
-        except Exception as exc:
+    except Exception as exc:
             print('Error updating part: ', exc) 
-
-    students_menu()
 
 
 def add_part(student_id):
     try:
         print('')
-        print('Choose from the following pieces:')
+        print('Choose from the following pieces to add a part:')
         print('')
         pieces_list = Piece.get_all()
-        for i, piece in enumerate(pieces_list, start=1):
-            print(f'{i}. {piece}')
+        for piece in pieces_list:
+            print(f'{piece.id}. {piece}')
         print('')
         piece_id = int(input('Enter the piece id: '))
         
@@ -156,9 +179,10 @@ def add_part(student_id):
 
         print('')
         new_part = Part.create(instrument_choice, student_id, piece_id)
+        piece_display = Piece.find_by_id(piece_id)
 
         print('')
-        print(f"\033[1mSuccessfully created new part: {new_part}\033[0m") 
+        print(f"\033[1mSuccessfully created new part: Instrument: {instrument_choice}; Piece: {piece_display.title} by {piece_display.composer}\033[0m") 
     except Exception as exc:
         print('')
         print(f"\033[1mError creating part: \033[0m", exc)
@@ -169,7 +193,7 @@ def add_part(student_id):
 def delete_part(student_id):
     try:
         print('')
-        print('Choose from the following parts:')
+        print('Choose from the following parts to delete:')
         print('')
         parts = Part.student_parts(student_id)
         for part in parts:
@@ -187,7 +211,6 @@ def delete_part(student_id):
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
 
-    students_menu()
 
 def add_student():
     print('')
@@ -203,19 +226,23 @@ def add_student():
         print('')
         print(f"\033[1mError creating student: \033[0m", exc)   
 
-    students_menu()
-
 
 def delete_student():
     print('')
-    print('Select from the following:')
+    print('Choose from the following students to delete:')
     print('')
     students_list = Student.get_all()
-    for i, student in enumerate(students_list, start=1):
-            print(f'{i}. {student.first_name} {student.last_name}')
+    for student in students_list:
+            print(f'{student.id}. {student.first_name} {student.last_name}')
+    
+    print('')
+    print('0. Go back to Students Menu')
     
     print('')
     id_ = input('Enter the student id: ')
+    if int(id_) == 0:
+        students_menu()
+        return
     if student := Student.find_by_id(id_):
         student.delete()
         print('')
@@ -223,5 +250,4 @@ def delete_student():
     else:
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
-
-    students_menu()
+        delete_student()
