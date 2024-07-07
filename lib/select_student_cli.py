@@ -2,7 +2,6 @@
 from models.student import Student
 from models.piece import Piece
 from models.part import Part
-from students_cli import students_menu
 
 
 def select_students(chosen_student=None):

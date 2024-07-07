@@ -1,8 +1,6 @@
 # lib/students_cli.py
 from pyfiglet import Figlet
 from models.student import Student
-from models.part import Part
-from models.piece import Piece
 
 
 def students_menu():

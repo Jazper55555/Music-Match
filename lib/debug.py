@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # lib/debug.py
-
 from models.student import Student
 from models.piece import Piece
 from models.part import Part
