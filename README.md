@@ -184,7 +184,7 @@ Fork and clone a copy of this repository.
 You will need python3 and pip installed in order to run the program on your CLI. Once forked and cloned, run the following commands:
 
 ```python
-pipenv install<br>
+pipenv install
 pipenv shell
 ```
 
@@ -192,8 +192,40 @@ pipenv shell
 
 Once the python packages are installed, you will need to cd (change directory) to the lib folder and run the *debug.py* file. This will fill the databases with some basic seed data that you can interact with. Once the database has seed data, you can run the app itself *cli.py*:
 
-`
+```python
 cd lib 
 python debug.py 
-python cli.py`
+python cli.py
+```
 
+## File Overview
+
+Below, you will find the *Directory Tree Structure*, *File Introductions*, and *Database Structure* which all have basic breakdowns of the included files.
+
+## Directory Tree Structure
+
+```console
+.
+├── Pipfile
+├── Pipfile.lock
+├── README.md
+└── lib
+    ├── models
+    │   ├── __init__.py
+    │   └── part.py
+    │   └── piece.py
+    │   └── student.py
+    ├── cli.py
+    ├── debug.py
+    ├── pieces_cli.py
+    ├── select_students_cli.py
+    ├── students_cli.py
+└── music_assignments.db
+
+```
+
+## File Introductions
+
+Each py file in the *Directory Tree Structure* has a brief breakdown found below:
+
+* __init__.py = Assigns the database to the appropriate python files
