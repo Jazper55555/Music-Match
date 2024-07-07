@@ -195,6 +195,7 @@ Once the python packages are installed, you will need to cd (change directory) t
 ```python
 cd lib 
 python debug.py 
+^d
 python cli.py
 ```
 
@@ -228,4 +229,16 @@ Below, you will find the *Directory Tree Structure*, *File Introductions*, and *
 
 Each py file in the *Directory Tree Structure* has a brief breakdown found below:
 
-* __init__.py = Assigns the database to the appropriate python files
+__lib/__
+* cli.py = Contains *Greeting* and *Menu* methods for the main CLI
+* debug.py = Contains seed data for the database and interactivity within the CLI
+* pieces_cli.py = Contains CRUD methods for the *Pieces* menu in the CLI
+* students_cli.py = Contains CRUD methods for the *Students* menu in the CLI
+* select_student_cli.py = Contains CRUD methods for *Parts* found in the *Student* menu
+
+__lib/models__
+* `__init__.py` = Assigns the database to the appropriate python files
+* part.py = Contains init, property, and class methods for the __Parts__ table in the database
+* piece.py = Contains init, property, and class methods for the __Pieces__ table in the database
+* student.py = Contains init, property, and class methods for the __Student__ table in the database
+
