@@ -183,15 +183,16 @@ Fork and clone a copy of this repository.
 
 You will need python3 and pip installed in order to run the program on your CLI. Once forked and cloned, run the following commands:
 
-`console
+`
 pipenv install 
+
 pipenv shell`
 
 ## Running the CLI
 
 Once the python packages are installed, you will need to cd (change directory) to the lib folder and run the *debug.py* file. This will fill the databases with some basic seed data that you can interact with. Once the database has seed data, you can run the app itself *cli.py*:
 
-`console
+`
 cd lib 
 python debug.py 
 python cli.py`
