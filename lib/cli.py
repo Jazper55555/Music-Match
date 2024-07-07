@@ -17,7 +17,7 @@ from select_student_cli import (
 
 def greeting():
     print('')
-    print(Figlet(font='big').renderText('Music Assignments'))
+    print(Figlet(font='big').renderText('Music Match'))
     print('Welcome!')
     print('')
     print('With this program, you can easily keep track of your students, pieces, and part assignments.')

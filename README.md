@@ -170,3 +170,30 @@ Happy coding!
 ## Resources
 
 - [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/) -->
+
+# Music Match - A Music Assignment CLI 
+
+Welcome to *Music Match*, an interactive CLI that allows you to keep track of your students, music, and most importantly, their part assignments. As a music educator who teaches 6th-12th graders across four different campuses, it can become pretty daunting when it comes to organizing all of their info (including music assignments). This is an app to help alleviate some of the hassle associated with that task.
+
+## Walkthrough
+
+Watch this interactive walk through to see the app in action or read below in order to get a detailed description of the CLI and its functions.
+---
+
+## Installation
+
+Fork and clone a copy of this repository.
+
+You will need python3 and pip installed in order to run the program on your CLI. Once forked and cloned, run the following commands:
+
+`pipenv install
+pipenv shell`
+
+## Running the CLI
+
+Once the python packages are installed, you will need to cd (change directory) to the lib folder and run the *debug.py* file. This will fill the databases with some basic seed data that you can interact with. Once the database has seed data, you can run the app itself *cli.py*:
+
+`cd lib
+python debug.py
+python cli.py`
+
