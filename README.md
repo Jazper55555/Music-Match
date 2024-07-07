@@ -1,5 +1,3 @@
-# Phase 3 Project - Music Assignments
-
 <!-- ## Learning Goals
 
 - Discuss the basic directory structure of a CLI.
@@ -178,7 +176,6 @@ Welcome to *Music Match*, an interactive CLI that allows you to keep track of yo
 ## Walkthrough
 
 Watch this interactive walk through to see the app in action or read below in order to get a detailed description of the CLI and its functions.
----
 
 ## Installation
 
@@ -186,14 +183,14 @@ Fork and clone a copy of this repository.
 
 You will need python3 and pip installed in order to run the program on your CLI. Once forked and cloned, run the following commands:
 
-`pipenv install
+`pipenv install <br>
 pipenv shell`
 
 ## Running the CLI
 
 Once the python packages are installed, you will need to cd (change directory) to the lib folder and run the *debug.py* file. This will fill the databases with some basic seed data that you can interact with. Once the database has seed data, you can run the app itself *cli.py*:
 
-`cd lib
-python debug.py
+`cd lib <br>
+python debug.py <br>
 python cli.py`
 
