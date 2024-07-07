@@ -183,8 +183,8 @@ Fork and clone a copy of this repository.
 
 You will need python3 and pip installed in order to run the program on your CLI. Once forked and cloned, run the following commands:
 
-`pipenv install `
-`pipenv shell`
+`pipenv install<br>
+pipenv shell`
 
 ## Running the CLI
 
