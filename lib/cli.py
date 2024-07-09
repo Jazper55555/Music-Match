@@ -12,7 +12,7 @@ from students_cli import (
     add_student, 
     delete_student)
 from select_student_cli import (
-    select_students)
+    select_a_student)
 
 
 def greeting():
@@ -45,7 +45,7 @@ def main():
                     if students_choice == 1:
                         view_students()
                     elif students_choice == 2:
-                        select_students()
+                        select_a_student()
                     elif students_choice == 3:
                         add_student()
                     elif students_choice == 4:

@@ -23,6 +23,7 @@ class Part:
     
     @instrument.setter
     def instrument(self, instrument):
+        instrument = instrument.strip()
         if isinstance(instrument, str) and len(instrument) > 0:
             self._instrument = instrument
         else:
@@ -153,7 +154,7 @@ class Part:
             FROM pieces
             WHERE id = ?'''
 
-        row = CURSOR.execute(sql, (self.id,)).fetchone()
+        row = CURSOR.execute(sql, (self.piece_id,)).fetchone()
         return Piece.instance_from_db(row) if row else None
 
 
