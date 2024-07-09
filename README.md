@@ -91,6 +91,8 @@ Refer to the diagram below for a visual representation of the table relationship
 
 ## Resources
 
-I implemented one external library for CLI fonts/formatting - PyFiglet!
+I implemented an external library for CLI fonts/formatting - PyFiglet!
 
 To learn more about PyFiglet, click here: [PyFiglet](https://pypi.org/project/pyfiglet/)
+
+I utilized a table relationship/database diagram editor as well which can be found here: [dbdiagram](https://dbdiagram.io/home)
