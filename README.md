@@ -87,7 +87,7 @@ Student to Piece: Many to Many Relationship
 
 Refer to the diagram below for a visual representation of the table relationships:
 
-file:///Users/donaldhull/Development/Code/Phase-3/phase-3-project/Phase%203%20Project%20Diagram%20-%20Jazper%20S.%20(4).pdf
+[text](file:///Users/donaldhull/Development/Code/Phase-3/phase-3-project/Phase%203%20Project%20Diagram%20-%20Jazper%20S.%20(4).pdf)
 
 ## Resources
 
