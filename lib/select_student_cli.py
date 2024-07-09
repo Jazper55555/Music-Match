@@ -91,7 +91,10 @@ def update_student(student_id):
 
             chosen_student.first_name = first_name
             chosen_student.last_name = last_name
-            chosen_student.grade = grade
+
+            if grade == '':
+                raise Exception(f"\033[1mError updating student: Grade must be a number between 6 and 12\033[0m")
+            chosen_student.grade = int(grade)
 
             chosen_student.update()
 
@@ -112,6 +115,7 @@ def display_student_parts(student_id):
             print('')
             print(f"\033[1mPiece: {piece_title.title} by {piece_title.composer}; Part: {part.instrument}\033[0m")   
     select_students(chosen_student)
+
 
 def update_parts(student_id):
     print('')
@@ -141,6 +145,7 @@ def update_parts(student_id):
     chosen_student = Student.find_by_id(student_id)
     select_students(chosen_student)
 
+
 def add_part(student_id):
     try:
         print('')
@@ -149,14 +154,17 @@ def add_part(student_id):
         pieces_list = Piece.get_all()
         for piece in pieces_list:
             print(f'{piece.id}. {piece}')
+
         print('')
-        piece_id = int(input('Enter the piece id: '))
+        piece_id = input('Enter the piece id: ')
+        if piece_id == '':
+            raise Exception(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")
         
         print('')
         instrument_choice = input("Enter the instrument (part) assignment: ")
 
         print('')
-        new_part = Part.create(instrument_choice, student_id, piece_id)
+        Part.create(instrument_choice, student_id, int(piece_id))
         piece_display = Piece.find_by_id(piece_id)
 
         print('')

@@ -80,4 +80,5 @@ The database is composed of 3 tables corresponding to the *student.py*, *piece.p
 ## Resources
 
 I implemented one external library for CLI fonts/formatting - PyFiglet!
+
 To learn more about PyFiglet, click here: [PyFiglet](https://pypi.org/project/pyfiglet/)

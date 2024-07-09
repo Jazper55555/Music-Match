@@ -80,7 +80,7 @@ def add_piece():
         print(f"\033[1mSuccessfully created new {new_piece}\033[0m")   
     except Exception as exc:
         print('')
-        print('Error creating piece: ', exc)
+        print(f"\033[1mError creating piece:\033[0m", exc)
 
 
 def delete_piece():
