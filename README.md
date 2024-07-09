@@ -95,4 +95,4 @@ I implemented an external library for CLI fonts/formatting - PyFiglet!
 
 To learn more about PyFiglet, click here: [PyFiglet](https://pypi.org/project/pyfiglet/)
 
-I utilized a table relationship/database diagram editor as well which can be found here: [dbdiagram](https://dbdiagram.io/home)
+I utilized a table relationship/database diagram editor which can be found here: [dbdiagram](https://dbdiagram.io/home)
