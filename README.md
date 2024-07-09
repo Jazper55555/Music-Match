@@ -28,9 +28,9 @@ python debug.py
 python cli.py
 ```
 
-## File Overview
+## File Struture
 
-Below, you will find the *Directory Tree Structure*, *File Introductions*, and *Database Structure* which all have basic breakdowns of the included files.
+Below, you will find the *Directory Tree Structure*, *Database Structure*, and *File Overview* sections which all have basic breakdowns of the included files.
 
 ### Directory Tree Structure
 
@@ -54,7 +54,13 @@ Below, you will find the *Directory Tree Structure*, *File Introductions*, and *
 
 ```
 
-### File Introductions
+### Database Structure
+
+__music_assignments.db__
+
+The database is composed of 3 tables corresponding to the *student.py*, *piece.py*, and *part.py* files. Each file contains full CRUD methods for creating, reading, updating, and deleting data within the corresponding tables (as well as the CLI).
+
+### File Overview
 
 Each .py file in the *Directory Tree Structure* has a brief breakdown found below:
 
@@ -71,11 +77,17 @@ __lib/models__
 * `piece.py` = Contains init, property, and class methods for the __Pieces__ table in the database
 * `student.py` = Contains init, property, and class methods for the __Student__ table in the database
 
-### Database Structure
+## Table Relationships
 
-__music_assignments.db__
+There are 3 data tables that form various relationships between them:
 
-The database is composed of 3 tables corresponding to the *student.py*, *piece.py*, and *part.py* files. Each file contains full CRUD methods for creating, reading, updating, and deleting data within the corresponding tables (as well as the CLI).
+Student to Part: One to Many Relationship
+Piece to Part: One to Many Relationship
+Student to Piece: Many to Many Relationship
+
+Refer to the diagram below for a visual representation of the table relationships:
+
+file:///Users/donaldhull/Development/Code/Phase-3/phase-3-project/Phase%203%20Project%20Diagram%20-%20Jazper%20S.%20(4).pdf
 
 ## Resources
 
