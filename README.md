@@ -51,6 +51,7 @@ Below, you will find the *Directory Tree Structure*, *Database Structure*, and *
     ├── select_students_cli.py
     ├── students_cli.py
 └── music_assignments.db
+└── Phase-3-Project-Diagram.png
 
 ```
 
