@@ -20,6 +20,7 @@ class Piece:
     
     @title.setter
     def title(self, title):
+        title = title.strip()
         if isinstance(title, str) and len(title) > 0:
             self._title = title
         else:
@@ -31,6 +32,7 @@ class Piece:
     
     @composer.setter
     def composer(self, composer):
+        composer = composer.strip()
         if isinstance(composer, str) and len(composer) > 0:
             self._composer = composer
         else:
@@ -125,22 +127,23 @@ class Piece:
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-    @classmethod
-    def find_by_title(cls, title):
-        sql = '''
-            SELECT *
-            FROM pieces
-            WHERE title is ?'''
+
+    # @classmethod
+    # def find_by_title(cls, title):
+    #     sql = '''
+    #         SELECT *
+    #         FROM pieces
+    #         WHERE title is ?'''
         
-        rows = CURSOR.execute(sql, (title,)).fetchall()
-        return [cls.instance_from_db(row) for row in rows]
+    #     rows = CURSOR.execute(sql, (title,)).fetchall()
+    #     return [cls.instance_from_db(row) for row in rows]
     
-    @classmethod
-    def find_by_composer(cls, composer):
-        sql = '''
-            SELECT *
-            FROM pieces
-            WHERE composer is ?'''
+    # @classmethod
+    # def find_by_composer(cls, composer):
+    #     sql = '''
+    #         SELECT *
+    #         FROM pieces
+    #         WHERE composer is ?'''
         
-        rows = CURSOR.execute(sql, (composer,)).fetchall()
-        return [cls.instance_from_db(row) for row in rows]
+    #     rows = CURSOR.execute(sql, (composer,)).fetchall()
+    #     return [cls.instance_from_db(row) for row in rows]

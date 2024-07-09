@@ -36,8 +36,6 @@ class Part:
     def student_id(self, student_id):
         if isinstance(student_id, int) and student_id > 0:
             self._student_id = student_id
-        elif student_id == None:
-            raise Exception(f"\033[1mStudent id must be a number greater than 0\033[0m")
         else:
             raise Exception(f"\033[1mStudent id must be a number greater than 0\033[0m")
         
@@ -49,8 +47,6 @@ class Part:
     def piece_id(self, piece_id):
         if isinstance(piece_id, int) and piece_id > 0:
             self._piece_id = piece_id
-        elif piece_id == None:
-            raise Exception(f"\033[1mPiece id must be a number greater than 0\033[0m")
         else:
             raise Exception(f"\033[1mPiece id must be a number greater than 0\033[0m")
 
@@ -147,23 +143,36 @@ class Part:
         
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
-
-    @classmethod
-    def student_parts(cls, student_id):
-        sql = '''
-            SELECT *
-            FROM parts
-            WHERE student_id = ?'''
-        
-        rows = CURSOR.execute(sql, (student_id,)).fetchall()
-        return [cls.instance_from_db(row) for row in rows]
     
-    @classmethod
-    def find_by_student_and_piece_id(cls, student_id, piece_id):
+    # piece() method
+    # part.piece()
+    def find_piece(self):
+        from models.piece import Piece
         sql = '''
             SELECT *
-            FROM parts
-            WHERE student_id = ? and piece_id = ?'''
+            FROM pieces
+            WHERE id = ?'''
+
+        row = CURSOR.execute(sql, (self.id,)).fetchone()
+        return Piece.instance_from_db(row) if row else None
+
+
+    # @classmethod
+    # def student_parts(cls, student_id):
+    #     sql = '''
+    #         SELECT *
+    #         FROM parts
+    #         WHERE student_id = ?'''
         
-        row = CURSOR.execute(sql, (student_id, piece_id)).fetchone()
-        return cls.instance_from_db(row) if row else None
+    #     rows = CURSOR.execute(sql, (student_id,)).fetchall()
+    #     return [cls.instance_from_db(row) for row in rows]
+    
+    # @classmethod
+    # def find_by_student_and_piece_id(cls, student_id, piece_id):
+    #     sql = '''
+    #         SELECT *
+    #         FROM parts
+    #         WHERE student_id = ? and piece_id = ?'''
+        
+    #     row = CURSOR.execute(sql, (student_id, piece_id)).fetchone()
+    #     return cls.instance_from_db(row) if row else None

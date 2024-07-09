@@ -23,6 +23,9 @@ def select_students(chosen_student=None):
             if not any(student.id == student_id for student in students_list):
                 raise ValueError
             chosen_student = Student.find_by_id(student_id)
+            # chosen_student = object from students_list
+            # chosen_student.parts()
+            # for each part, access its piece using part.piece()
 
         student_choices = 0
         while student_choices != 6:
@@ -51,7 +54,7 @@ def select_students(chosen_student=None):
                         update_student(chosen_student.id)
                         return
                     elif student_choices == 2:
-                        display_student_parts(chosen_student.id)
+                        student_parts()
                         return
                     elif student_choices == 3:
                         update_parts(chosen_student.id)
@@ -100,22 +103,26 @@ def update_student(student_id):
 
             print('')
             print(f"\033[1mSuccessfully updated student: {chosen_student}\033[0m")   
+        
         except Exception as exc:
             print('')
             print(f"\033[1mError updating student:\033[0m", exc)  
             select_students(chosen_student) 
 
 
-def display_student_parts(student_id):
-    chosen_student = Student.find_by_id(student_id)
-    if chosen_student:
-        parts = Part.student_parts(student_id)
-        for part in parts:
-            piece_title = Piece.find_by_id(part.piece_id)
-            print('')
-            print(f"\033[1mPiece: {piece_title.title} by {piece_title.composer}; Part: {part.instrument}\033[0m")   
-    select_students(chosen_student)
+# def display_student_parts(student_id):
+#     chosen_student = Student.find_by_id(student_id)
+#     if chosen_student:
+#         parts = Part.student_parts(student_id)
+#         for part in parts:
+#             piece_title = Piece.find_by_id(part.piece_id)
+#             print('')
+#             print(f"\033[1mPiece: {piece_title.title} by {piece_title.composer}; Part: {part.instrument}\033[0m")   
+#     select_students(chosen_student)
 
+
+def student_parts():
+    pass
 
 def update_parts(student_id):
     print('')

@@ -21,7 +21,7 @@ def view_students():
     students_list = Student.get_all()
     for student in students_list:
             print('')
-            print(f"\033[1m{student}\033[0m")   
+            print(f"\033[1m{student.first_name} {student.last_name}, {student.grade}th grade\033[0m")   
 
     print('')
 
@@ -33,35 +33,46 @@ def add_student():
         new_last_name = input('Enter the new students last name: ')
         new_grade = input('Enter the new students grade level: ')
 
+        if new_grade.strip() == '':
+            raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
+
         new_student = Student.create(new_first_name, new_last_name, int(new_grade))
         print('')
-        print(f"\033[1mSuccessfully created new student: {new_student}\033[0m")  
+        print(f"\033[1mSuccessfully created new student: {new_student.first_name} {new_student.last_name}, {new_student.grade}th grade\033[0m")  
+    
     except Exception as exc:
         print('')
         print(f"\033[1mError creating student: \033[0m", exc)   
 
 
 def delete_student():
-    print('')
-    print('Choose from the following students to delete:')
-    print('')
-    students_list = Student.get_all()
-    for student in students_list:
-            print(f'{student.id}. {student.first_name} {student.last_name}')
-    
-    print('')
-    print('0. Go back to Students Menu')
-    
-    print('')
-    id_ = input('Enter the student id: ')
-    if int(id_) == 0:
-        students_menu()
-        return
-    if student := Student.find_by_id(id_):
-        student.delete()
+    try:
+        print('')
+        print('Choose from the following students to delete:')
+        print('')
+        students_list = Student.get_all()
+        for i, student in enumerate(students_list, start=1):
+                print(f'{i}. {student.first_name} {student.last_name}')
+        
+        print('')
+        print('0. Go back to Students Menu')
+        
+        print('')
+        choice = input('Enter the student number: ')
+        
+        if int(choice) == 0:
+            students_menu()
+            return
+        if int(choice) > len(students_list):
+            raise ValueError
+        
+        chosen_student = students_list[int(choice) - 1]
+        chosen_student.delete()
+
         print('')
         print(f"\033[1mStudent {student.first_name} {student.last_name} successfully deleted\033[0m")   
-    else:
+    
+    except ValueError:
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
         delete_student()

@@ -13,14 +13,15 @@ class Student:
 
     def __repr__(self) -> str:
         return (f'<Student: {self.first_name} {self.last_name}, Grade: {self.grade}>')
-    
 
+    
     @property
     def first_name(self):
         return self._first_name
     
     @first_name.setter
     def first_name(self, first_name):
+        first_name = first_name.strip()
         if isinstance(first_name, str) and len(first_name) > 0:
             self._first_name = first_name
         else:
@@ -32,6 +33,7 @@ class Student:
     
     @last_name.setter
     def last_name(self, last_name):
+        last_name = last_name.strip()
         if isinstance(last_name, str) and len(last_name) > 0:
             self._last_name = last_name
         else:
@@ -45,8 +47,6 @@ class Student:
     def grade(self, grade):
         if isinstance(grade, int) and 6<= grade <= 12:
             self._grade = grade
-        elif grade == None:
-            raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
         else:
             raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
     
@@ -105,6 +105,14 @@ class Student:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
+        sql_update = '''
+        UPDATE parts
+        SET student_id = NULL
+        WHERE student_id = ?'''
+
+        CURSOR.execute(sql_update, (self.id,))
+        CONN.commit()
+
         del type(self).all[self.id]
         self.id = None
 
@@ -142,32 +150,44 @@ class Student:
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-    @classmethod
-    def find_by_first_name(cls, first_name):
+    def find_parts(self):
+        from models.part import Part
         sql = '''
             SELECT *
-            FROM students
-            WHERE first_name is ?'''
+            FROM parts
+            WHERE student_id = ?'''
         
-        row = CURSOR.execute(sql, (first_name,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (self.id,)).fetchall()
+        return [Part.instance_from_db(row) for row in rows]
+
+
+    # @classmethod
+    # def find_by_first_name(cls, first_name):
+    #     sql = '''
+    #         SELECT *
+    #         FROM students
+    #         WHERE first_name is ?'''
+        
+    #     row = CURSOR.execute(sql, (first_name,)).fetchone()
+    #     return cls.instance_from_db(row) if row else None
     
-    @classmethod
-    def find_by_last_name(cls, last_name):
-        sql = '''
-            SELECT *
-            FROM students
-            WHERE last_name is ?'''
+    # @classmethod
+    # def find_by_last_name(cls, last_name):
+    #     sql = '''
+    #         SELECT *
+    #         FROM students
+    #         WHERE last_name is ?'''
         
-        row = CURSOR.execute(sql, (last_name,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+    #     row = CURSOR.execute(sql, (last_name,)).fetchone()
+    #     return cls.instance_from_db(row) if row else None
     
-    @classmethod
-    def find_by_grade(cls, grade):
-        sql = '''
-            SELECT *
-            FROM students
-            WHERE grade = ?'''
+    # @classmethod
+    # def find_by_grade(cls, grade):
+    #     sql = '''
+    #         SELECT *
+    #         FROM students
+    #         WHERE grade = ?'''
         
-        row = CURSOR.execute(sql, (grade,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+    #     row = CURSOR.execute(sql, (grade,)).fetchone()
+    #     return cls.instance_from_db(row) if row else None
+    
