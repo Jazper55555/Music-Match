@@ -32,6 +32,7 @@ def select_a_student():
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
         select_a_student()
+        return
 
 
 def student_menu(chosen_student):
@@ -57,8 +58,6 @@ def student_menu(chosen_student):
 
             if choice < 1 or choice > 6:
                 raise ValueError
-            if choice == 0:
-                students_menu()
             if choice == 1:
                 update_student(chosen_student)
                 return
@@ -66,7 +65,7 @@ def student_menu(chosen_student):
                 view_parts(chosen_student)
                 return
             elif choice == 3:
-                update_parts(chosen_student)
+                update_part(chosen_student)
                 return
             elif choice == 4:
                 add_part(chosen_student)
@@ -82,6 +81,7 @@ def student_menu(chosen_student):
             print('')
             print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m") 
             student_menu(chosen_student)
+            return
 
 
 def update_student(chosen_student):
@@ -94,10 +94,10 @@ def update_student(chosen_student):
         chosen_student.first_name = first_name
         chosen_student.last_name = last_name
 
-        if grade == '':
+        if grade == '' or grade != isinstance(grade, int):
             raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
+        
         chosen_student.grade = int(grade)
-
         chosen_student.update()
 
         print('')
@@ -107,6 +107,9 @@ def update_student(chosen_student):
         print('')
         print(f"\033[1mError updating student:\033[0m", exc)  
         student_menu(chosen_student) 
+        return
+
+    student_menu(chosen_student)
 
 
 def view_parts(chosen_student):
@@ -125,7 +128,7 @@ def view_parts(chosen_student):
     student_menu(chosen_student)
 
 
-def update_parts(chosen_student):
+def update_part(chosen_student):
     try:
         print('')
         print('Choose from the following parts to update:')
@@ -136,10 +139,15 @@ def update_parts(chosen_student):
                 print(f"{i}. {piece.title} by {piece.composer}; Part: {part.instrument}")   
             
         print('')
-        choice = int(input('Enter the part number: '))
+        print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
+        print('')
+        choice = int(input('Enter the part number (or 0 to go back): '))
         print('')
 
-        if choice == 0 or choice > len(parts):
+        if choice == 0:
+            student_menu(chosen_student)
+            return
+        if choice > len(parts):
             raise ValueError
         
         try:
@@ -160,7 +168,8 @@ def update_parts(chosen_student):
     except ValueError:
         print('')
         print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")   
-        update_parts(chosen_student)       
+        update_part(chosen_student)
+        return       
 
     student_menu(chosen_student)
 
@@ -175,8 +184,14 @@ def add_part(chosen_student):
             print(f'{i}. {piece}')
 
         print('')
-        choice = int(input('Enter the piece number: '))
-        if choice == '' or int(choice) == 0 or int(choice) > len(pieces_list):
+        print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
+        print('')
+
+        choice = int(input('Enter the piece number (or 0 to go back): '))
+        if choice == 0:
+            student_menu(chosen_student)
+            return
+        if choice == '' or int(choice) > len(pieces_list):
             raise ValueError
         
         try:
@@ -194,11 +209,13 @@ def add_part(chosen_student):
             print('')
             print(f"\033[1mError updating part:\033[0m", exc)
             add_part(chosen_student)
+            return
 
     except ValueError:
         print('')
         print((f"\033[1mInvalid Option - Try typing a listed number option\033[0m")) 
         add_part(chosen_student)
+        return
 
 
 def delete_part(chosen_student):
@@ -212,8 +229,14 @@ def delete_part(chosen_student):
                 print(f"{i}. {piece.title} by {piece.composer}; Part: {part.instrument}") 
 
         print('')
-        choice = int(input('Enter the part number: '))
-        if choice == 0 or choice > len(parts):
+        print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
+        print('')
+        choice = int(input('Enter the part number (or 0 to go back): '))
+
+        if choice == 0:
+            student_menu(chosen_student)
+            return
+        if choice > len(parts):
             raise ValueError
        
         try:
@@ -231,3 +254,4 @@ def delete_part(chosen_student):
         print('')
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  
         delete_part(chosen_student)
+        return
