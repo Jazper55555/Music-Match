@@ -27,8 +27,8 @@ def view_students():
 
 
 def add_student():
-    print('')
     try:
+        print('')
         new_first_name = input('Enter the new students first name: ')
         new_last_name = input('Enter the new students last name: ')
         new_grade = input('Enter the new students grade level: ')
@@ -46,7 +46,7 @@ def add_student():
 
 
 def delete_student():
-    try:
+    while True:
         print('')
         print('Choose from the following students to delete:')
         print('')
@@ -60,19 +60,22 @@ def delete_student():
         print('')
         choice = input('Enter the student number: ')
         
-        if int(choice) == 0:
-            students_menu()
-            return
-        if int(choice) > len(students_list):
-            raise ValueError
-        
-        chosen_student = students_list[int(choice) - 1]
-        chosen_student.delete()
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            elif 1 <= choice <= len(students_list):            
+                chosen_student = students_list[int(choice) - 1]
+                chosen_student.delete()
 
-        print('')
-        print(f"\033[1mStudent {student.first_name} {student.last_name} successfully deleted\033[0m")   
+                print('')
+                print(f"\033[1mStudent {student.first_name} {student.last_name} successfully deleted\033[0m")   
+                break
+
+            else:
+                print('')
+                print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
     
-    except ValueError:
-        print('')
-        print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
-        delete_student()
+        else:
+            print('')
+            print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   

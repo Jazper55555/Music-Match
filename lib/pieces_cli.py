@@ -19,6 +19,8 @@ def pieces_menu():
 
 
 def view_pieces():
+    print('')
+    print(f"\033[1mPieces:\033[0m")
     all_pieces = Piece.get_all()
     for piece in all_pieces:
         print('')
@@ -26,7 +28,7 @@ def view_pieces():
     
 
 def update_piece():
-    try:
+    while True:
         print('')
         print('Choose from the following pieces:')
         print('')
@@ -38,33 +40,39 @@ def update_piece():
         print('0. Go back to Pieces Menu')
         
         print('')
-        choice = int(input("Enter the piece number: "))
-        if choice == 0:
-            return
-        if choice > len(pieces_list):
-            raise ValueError
-        print('')
-        chosen_piece = pieces_list[choice - 1]
+        choice = input("Enter the piece number: ")
 
-        try:
-            update_title = input('Enter the pieces updated title: ')
-            update_composer = input('Enter the pieces updated composer: ')
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            elif 1 <= choice <= len(pieces_list):
+                print('')
+                chosen_piece = pieces_list[choice - 1]
 
-            chosen_piece.title = update_title
-            chosen_piece.composer = update_composer
+                update_title = input('Enter the pieces updated title: ')
+                update_composer = input('Enter the pieces updated composer: ')
 
-            chosen_piece.update()
+                if update_title.strip() == '' or update_composer.strip() == '':
+                    print('')
+                    print("\033[1mError updating piece: Title and/or composer cannot be empty\033[0m")
+                    continue
 
+                chosen_piece.title = update_title
+                chosen_piece.composer = update_composer
+
+                chosen_piece.update()
+
+                print('')
+                print(f"\033[1mSuccessfully updated {chosen_piece}\033[0m")
+                break   
+        
+            else:
+                print('')
+                print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
+        else:
             print('')
-            print(f"\033[1mSuccessfully updated {chosen_piece}\033[0m")   
-        except Exception as exc:
-            print('')
-            print(f"\033[1mError updating piece:\033[0m", exc)   
-
-    except ValueError:
-        print('')
-        print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
-        update_piece()    
+            print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
 
 
 def add_piece():
@@ -78,13 +86,14 @@ def add_piece():
 
         print('')
         print(f"\033[1mSuccessfully created new {new_piece}\033[0m")   
+    
     except Exception as exc:
         print('')
         print(f"\033[1mError creating piece:\033[0m", exc)
 
 
 def delete_piece():
-    try:
+    while True:
         print('')
         print('Select from the following pieces to delete:')
         print('')
@@ -97,40 +106,21 @@ def delete_piece():
 
         print('')
         choice = input('Enter the piece number: ')
-        
-        if int(choice) == 0:
-            return
-        if int(choice) > len(pieces_list):
-            raise ValueError
-        
-        chosen_piece = pieces_list[int(choice) - 1]
-        chosen_piece.delete()
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            elif 1 <= choice <= len(pieces_list):
+                chosen_piece = pieces_list[int(choice) - 1]
+                chosen_piece.delete()
 
-        print('')
-        print(f"\033[1mSuccessfully deleted {chosen_piece}\033[0m")   
-    
-    except ValueError:
-        print('')
-        print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
-        delete_piece()
+                print('')
+                print(f"\033[1mSuccessfully deleted {chosen_piece}\033[0m") 
+                break          
 
-    # print('')
-    # print('0. Go back to Pieces Menu')
-    
-    # print('')
-    # choice = input('Enter the piece number: ')
-    # if int(choice) == '0' or choice == '':
-    #     delete_piece()
-    # if int(choice) > len(pieces_list):
-    #     raise ValueError
-    # try:
-    #     # piece_id = int(id_)
-    #     # chosen_piece = Piece.find_by_id(piece_id)
-    #     chosen_piece = pieces_list[int(choice) - 1]
-    #     chosen_piece.delete()
-    #     print('')
-    #     print(f"\033[1mPiece: {chosen_piece.title} by {chosen_piece.composer} successfully deleted\033[0m")
-    # except ValueError:
-    #     print('')
-    #     print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
-    #     delete_piece() 
+            else:
+                print('')
+                print("\033[1mInvalid Option - Try typing a listed number option\033[0m")            
+        else:
+            print('')
+            print("\033[1mInvalid Option - Try typing a listed number option\033[0m")

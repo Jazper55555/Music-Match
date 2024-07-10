@@ -37,11 +37,10 @@ def main():
 
         if option == "1":
             while students_choice != 5:
-                try:
-                    students_menu()
-                    students_choice = int(input('Option: '))
-                    if students_choice < 1 or students_choice > 5:
-                        raise ValueError
+                students_menu()
+                students_choice = input('Option: ')
+                if students_choice.isdigit() and 1 <= int(students_choice) <= 5:
+                    students_choice = int(students_choice)
                     if students_choice == 1:
                         view_students()
                     elif students_choice == 2:
@@ -51,19 +50,18 @@ def main():
                     elif students_choice == 4:
                         delete_student()
                     elif students_choice == 5:
-                        pass
-                except Exception:
-                    print("")
+                        main()
+                else:
+                    print('')
                     print("\033[1mInvalid Option - Try typing a listed number option\033[0m") 
-                    print('')  
+                    print('') 
 
         elif option == "2":
             while pieces_choice != 5:
-                try:
-                    pieces_menu()
-                    pieces_choice = int(input('Option: '))
-                    if pieces_choice < 1 or pieces_choice > 5:
-                        raise ValueError
+                pieces_menu()
+                pieces_choice = input('Option: ')
+                if pieces_choice.isdigit() and 1 <= int(pieces_choice) <= 5:
+                    pieces_choice = int(pieces_choice)
                     if pieces_choice == 1:
                         view_pieces()
                     elif pieces_choice == 2:
@@ -73,17 +71,19 @@ def main():
                     elif pieces_choice == 4:
                         delete_piece()
                     elif pieces_choice == 5:
-                        pass
-                except Exception:
-                    print("")
-                    print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  
+                        main()
+                else:
+                    print('')
+                    print("\033[1mInvalid Option - Try typing a listed number option\033[0m") 
+                    print('') 
 
         elif option == "3":
             exit_program()
 
         else:
-            print("")
+            print('')
             print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
+            print('')
 
 
 def menu():

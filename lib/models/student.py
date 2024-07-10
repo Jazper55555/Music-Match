@@ -151,6 +151,7 @@ class Student:
         return cls.instance_from_db(row) if row else None
     
     def find_parts(self):
+        # change find_parts to parts
         from models.part import Part
         sql = '''
             SELECT *

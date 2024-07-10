@@ -35,7 +35,8 @@ def select_a_student():
 
 def student_menu(chosen_student):
     while True:
-        try:
+        # try:
+            print('top of the loop')
             print('')
             print(f"\033[1m***{chosen_student.first_name} {chosen_student.last_name}, {chosen_student.grade}th grade***\033[0m")   
             print('')
@@ -54,32 +55,35 @@ def student_menu(chosen_student):
 
             choice = int(input('Option: '))
 
-            if choice < 1 or choice > 6:
-                raise ValueError
+            # if choice < 1 or choice > 6:
+            #     raise ValueError
             if choice == 1:
                 update_student(chosen_student)
-                return
+                # return
             elif choice == 2:
                 view_parts(chosen_student)
-                return
+                print('done with viewing')
+                # return
             elif choice == 3:
                 update_part(chosen_student)
-                return
+                # return
             elif choice == 4:
                 add_part(chosen_student)
-                return
+                # return
             elif choice == 5:
                 delete_part(chosen_student)
-                return
+                # return
             elif choice == 6:
                 select_a_student()
-                return
+                # return
 
-        except ValueError:
-            print('')
-            print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m") 
-            student_menu(chosen_student)
-            return
+            else:
+                print('')
+                print(f"\033[1mSTUDENT MENU Invalid Option - Try typing a listed number option\033[0m") 
+        
+            print('Done with if')
+            # student_menu(chosen_student)
+            # return
 
 
 def update_student(chosen_student):
@@ -89,17 +93,17 @@ def update_student(chosen_student):
         last_name = input('Enter the students updated last name: ')
         grade = input('Enter the students updated grade: ')
 
-        chosen_student.first_name = first_name
-        chosen_student.last_name = last_name
-
-        if grade == '' or grade != isinstance(grade, int):
+        if grade.strip() == '':
             raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
-        
-        chosen_student.grade = int(grade)
-        chosen_student.update()
 
-        print('')
-        print(f"\033[1mSuccessfully updated student: {chosen_student}\033[0m")   
+        else:
+            chosen_student.first_name = first_name
+            chosen_student.last_name = last_name
+            chosen_student.grade = int(grade)
+            chosen_student.update()
+
+            print('')
+            print(f"\033[1mSuccessfully updated student: {chosen_student.first_name} {chosen_student.last_name}, {chosen_student.grade}th grade\033[0m")   
     
     except Exception as exc:
         print('')
@@ -113,11 +117,16 @@ def update_student(chosen_student):
 def view_parts(chosen_student):
     print('')
     parts = chosen_student.find_parts()
+    print('parts')
     for part in parts:
+        print('piece')
         piece = part.find_piece()
+        # change find_piece() to piece()
         print(f"\033[1mPart: {part.instrument} from {piece.title} by {piece.composer}\033[0m")
 
-    student_menu(chosen_student)
+    print('done with printing')
+
+    # student_menu(chosen_student)
 
 
 def update_part(chosen_student):
