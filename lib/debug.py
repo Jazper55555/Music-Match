@@ -38,4 +38,4 @@ bb_gt2 = Part.create('Backup Guitar', andrea.id, blackbird.id)
 bb_bass = Part.create('Bass Guitar', johnny.id, blackbird.id)
 bb_drums = Part.create('Drums', luca.id, blackbird.id)
 
-breakpoint()
+# breakpoint()

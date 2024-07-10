@@ -24,7 +24,6 @@ Once the python packages are installed, you will need to cd (change directory) t
 ```python
 cd lib 
 python debug.py 
-^d
 python cli.py
 ```
 
@@ -47,10 +46,10 @@ Below, you will find the *Directory Tree Structure*, *Database Structure*, and *
     │   └── student.py
     ├── cli.py
     ├── debug.py
+    ├── music_assignments.db
     ├── pieces_cli.py
-    ├── select_students_cli.py
+    ├── select_student_cli.py
     ├── students_cli.py
-└── music_assignments.db
 └── Phase-3-Project-Diagram.png
 
 ```
