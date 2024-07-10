@@ -2,8 +2,6 @@
 from models.student import Student
 from models.piece import Piece
 from models.part import Part
-
-from students_cli import students_menu
     
 
 def select_a_student():
@@ -113,18 +111,12 @@ def update_student(chosen_student):
 
 
 def view_parts(chosen_student):
-    try:
-        print('')
-        parts = chosen_student.find_parts()
-        for part in parts:
-            piece = part.find_piece()
-            print(f"\033[1m{piece.title} by {piece.composer}; Part: {part.instrument}\033[0m")
+    print('')
+    parts = chosen_student.find_parts()
+    for part in parts:
+        piece = part.find_piece()
+        print(f"\033[1mPart: {part.instrument} from {piece.title} by {piece.composer}\033[0m")
 
-    except ValueError:
-        print('')
-        print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")  
-        student_menu(chosen_student) 
-    
     student_menu(chosen_student)
 
 
@@ -136,7 +128,7 @@ def update_part(chosen_student):
         parts = chosen_student.find_parts()
         for i, part in enumerate(parts, start=1):
                 piece = part.find_piece()
-                print(f"{i}. {piece.title} by {piece.composer}; Part: {part.instrument}")   
+                print(f"{i}. Part: {part.instrument} from {piece.title} by {piece.composer}")   
             
         print('')
         print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
@@ -159,7 +151,7 @@ def update_part(chosen_student):
             chosen_part.update()
 
             print('')
-            print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument}\033[0m")   
+            print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m")   
 
         except Exception as exc:
             print('')
@@ -203,7 +195,7 @@ def add_part(chosen_student):
             Part.create(instrument_choice, chosen_student.id, int(choice))
 
             print('')
-            print(f"\033[1mSuccessfully created new Part: {instrument_choice}; {chosen_piece.title} by {chosen_piece.composer}\033[0m") 
+            print(f"\033[1mSuccessfully created new Part: {instrument_choice} from {chosen_piece.title} by {chosen_piece.composer}\033[0m") 
     
         except Exception as exc:
             print('')
@@ -216,6 +208,8 @@ def add_part(chosen_student):
         print((f"\033[1mInvalid Option - Try typing a listed number option\033[0m")) 
         add_part(chosen_student)
         return
+    
+    student_menu(chosen_student)
 
 
 def delete_part(chosen_student):
@@ -226,7 +220,7 @@ def delete_part(chosen_student):
         parts = chosen_student.find_parts()
         for i, part in enumerate(parts, start=1):
                 piece = part.find_piece()
-                print(f"{i}. {piece.title} by {piece.composer}; Part: {part.instrument}") 
+                print(f"{i}. Part: {part.instrument} from {piece.title} by {piece.composer}") 
 
         print('')
         print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
@@ -244,7 +238,7 @@ def delete_part(chosen_student):
             chosen_part.delete()
 
             print('')
-            print(f"\033[1mSuccessfully deleted Part: {chosen_part.instrument}; {piece.title} by {piece.composer}\033[0m") 
+            print(f"\033[1mSuccessfully deleted Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m") 
     
         except Exception as exc:
             print('')
@@ -255,3 +249,5 @@ def delete_part(chosen_student):
         print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  
         delete_part(chosen_student)
         return
+    
+    student_menu(chosen_student)

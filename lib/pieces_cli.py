@@ -45,9 +45,6 @@ def update_piece():
             raise ValueError
         print('')
         chosen_piece = pieces_list[choice - 1]
-        # chosen_piece = Piece.find_by_id(piece_id)
-        # print(f"\033[1m<{chosen_piece}>\033[0m")   
-        # print('')
 
         try:
             update_title = input('Enter the pieces updated title: ')
