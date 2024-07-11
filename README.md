@@ -4,7 +4,9 @@ Welcome to *Music Match*, an interactive CLI that allows you to keep track of yo
 
 ### Walkthrough
 
-Watch this interactive walk through to see the app in action or read below in order to get a detailed description of the CLI and its functions.
+Watch this interactive walk through to see the app in action:
+
+[Music Match Walkthrough](https://youtu.be/q0o4NrpIRzU)
 
 ### Installation
 
