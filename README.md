@@ -6,7 +6,7 @@ Welcome to *Music Match*, an interactive CLI that allows you to keep track of yo
 
 Watch this interactive walk through to see the app in action:
 
-[![Music Match Walkthrough](/Project-Thumnail.png)](https://youtu.be/q0o4NrpIRzU)
+[![Music Match Walkthrough](/Project-Thumbnail.png)](https://youtu.be/q0o4NrpIRzU)
 
 ### Installation
 
