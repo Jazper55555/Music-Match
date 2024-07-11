@@ -5,7 +5,7 @@ from models.part import Part
     
 
 def select_a_student():
-    try:
+    while True:
         print('')
         print('Select from the following:')
         print('')
@@ -17,166 +17,157 @@ def select_a_student():
         print('0. Go back to Students Menu')
         print('')
 
-        choice = int(input('Option: '))
-        if choice == 0:
-            return
-        if choice > len(students_list):
-            raise ValueError
+        choice = input('Option: ')
 
-        chosen_student = students_list[choice - 1]
-        student_menu(chosen_student)
-    
-    except ValueError:
-        print('')
-        print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
-        select_a_student()
-        return
-
-
-def student_menu(chosen_student):
-    while True:
-        # try:
-            print('top of the loop')
-            print('')
-            print(f"\033[1m***{chosen_student.first_name} {chosen_student.last_name}, {chosen_student.grade}th grade***\033[0m")   
-            print('')
-            print('1. Update student')
-            print('')
-            print('2. View pieces/parts')
-            print('')
-            print('3. Update parts')
-            print('')
-            print('4. Add a part')
-            print('')
-            print('5. Delete a part')
-            print('')
-            print('6. Go back to Students')
-            print('')
-
-            choice = int(input('Option: '))
-
-            # if choice < 1 or choice > 6:
-            #     raise ValueError
-            if choice == 1:
-                update_student(chosen_student)
-                # return
-            elif choice == 2:
-                view_parts(chosen_student)
-                print('done with viewing')
-                # return
-            elif choice == 3:
-                update_part(chosen_student)
-                # return
-            elif choice == 4:
-                add_part(chosen_student)
-                # return
-            elif choice == 5:
-                delete_part(chosen_student)
-                # return
-            elif choice == 6:
-                select_a_student()
-                # return
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            elif 1 <= choice <= len(students_list):
+                chosen_student = students_list[choice - 1]
+                student_menu(chosen_student)
+                break
 
             else:
                 print('')
-                print(f"\033[1mSTUDENT MENU Invalid Option - Try typing a listed number option\033[0m") 
-        
-            print('Done with if')
-            # student_menu(chosen_student)
-            # return
+                print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
+
+        else:
+            print('')
+            print("\033[1mInvalid Option - Try typing a listed number option\033[0m")   
+
+
+def student_menu(chosen_student):
+    choice = 0
+    while choice != 6:
+        menu(chosen_student)
+
+        choice = input('Option: ')
+
+        if choice.isdigit() and 1 <= int(choice) <= 6:
+            choice = int(choice)
+            if choice == 1:
+                update_student(chosen_student)
+            elif choice == 2:
+                view_parts(chosen_student)
+            elif choice == 3:
+                update_part(chosen_student)
+            elif choice == 4:
+                add_part(chosen_student)
+            elif choice == 5:
+                delete_part(chosen_student)
+            elif choice == 6:
+                break
+
+            else:
+                print('')
+                print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m") 
+
+
+def menu(chosen_student):
+    print('')
+    print(f"\033[1m***{chosen_student.first_name} {chosen_student.last_name}, {chosen_student.grade}th grade***\033[0m")   
+    print('')
+    print('1. Update student')
+    print('')
+    print('2. View pieces/parts')
+    print('')
+    print('3. Update parts')
+    print('')
+    print('4. Add a part')
+    print('')
+    print('5. Delete a part')
+    print('')
+    print('6. Go back to Students Menu')
+    print('')
 
 
 def update_student(chosen_student):
-    try:
+    while True:
         print('')
         first_name = input('Enter the students updated first name: ')
         last_name = input('Enter the students updated last name: ')
         grade = input('Enter the students updated grade: ')
 
-        if grade.strip() == '':
-            raise Exception(f"\033[1mGrade must be a number between 6 and 12\033[0m")
+        if grade.isdigit() and first_name.strip() != '' and last_name.strip() != '':
+            grade = int(grade)
+
+            if 6 <= grade <= 12:
+                chosen_student.first_name = first_name
+                chosen_student.last_name = last_name
+                chosen_student.grade = grade
+                chosen_student.update()
+
+                print('')
+                print(f"\033[1mSuccessfully updated student: {chosen_student.first_name} {chosen_student.last_name}, {chosen_student.grade}th grade\033[0m") 
+                break  
+
+            else:
+                print('')
+                print(f"\033[1mGrade must be a number between 6 and 12\033[0m")
 
         else:
-            chosen_student.first_name = first_name
-            chosen_student.last_name = last_name
-            chosen_student.grade = int(grade)
-            chosen_student.update()
-
             print('')
-            print(f"\033[1mSuccessfully updated student: {chosen_student.first_name} {chosen_student.last_name}, {chosen_student.grade}th grade\033[0m")   
-    
-    except Exception as exc:
-        print('')
-        print(f"\033[1mError updating student:\033[0m", exc)  
-        student_menu(chosen_student) 
-        return
-
-    student_menu(chosen_student)
+            print(f"\033[1mError updating student: First name, last name, and grade cannot be empty \033[0m")  
 
 
 def view_parts(chosen_student):
     print('')
-    parts = chosen_student.find_parts()
-    print('parts')
+    parts = chosen_student.parts()
     for part in parts:
-        print('piece')
-        piece = part.find_piece()
-        # change find_piece() to piece()
+        piece = part.piece()
         print(f"\033[1mPart: {part.instrument} from {piece.title} by {piece.composer}\033[0m")
-
-    print('done with printing')
-
-    # student_menu(chosen_student)
 
 
 def update_part(chosen_student):
-    try:
+    while True:
         print('')
         print('Choose from the following parts to update:')
         print('')
-        parts = chosen_student.find_parts()
+        parts = chosen_student.parts()
         for i, part in enumerate(parts, start=1):
-                piece = part.find_piece()
+                piece = part.piece()
                 print(f"{i}. Part: {part.instrument} from {piece.title} by {piece.composer}")   
             
         print('')
         print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
         print('')
-        choice = int(input('Enter the part number (or 0 to go back): '))
+
+        choice = input('Enter the part number (or 0 to go back): ')
         print('')
 
-        if choice == 0:
-            student_menu(chosen_student)
-            return
-        if choice > len(parts):
-            raise ValueError
-        
-        try:
-            update_instrument = input('Update the part (instrument): ')
-            chosen_part = parts[choice - 1]
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            if 1 <= choice <= len(parts):
+                update_instrument = input('Update the part (instrument): ')
+                if update_instrument.strip() == '':
+                    print('')
+                    print(f"\033[1mInstrument (part) must be text with at least 1 character\033[0m")
+                    continue
+            
+                chosen_part = parts[choice - 1]
 
-            chosen_part.instrument = update_instrument
+                chosen_part.instrument = update_instrument
 
-            chosen_part.update()
+                chosen_part.update()
 
+                print('')
+                print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m")   
+                break
+
+            else:
+                print('')
+                print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")   
+
+        else:
             print('')
-            print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m")   
-
-        except Exception as exc:
-            print('')
-            print(f"\033[1mError updating part:\033[0m", exc) 
-
-    except ValueError:
-        print('')
-        print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")   
-        update_part(chosen_student)
-        return       
-
-    student_menu(chosen_student)
+            print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")   
 
 
 def add_part(chosen_student):
-    try:
+    while True:
         print('')
         print('Choose from the following pieces to add a part:')
         print('')
@@ -188,75 +179,69 @@ def add_part(chosen_student):
         print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
         print('')
 
-        choice = int(input('Enter the piece number (or 0 to go back): '))
-        if choice == 0:
-            student_menu(chosen_student)
-            return
-        if choice == '' or int(choice) > len(pieces_list):
-            raise ValueError
+        choice = input('Enter the piece number (or 0 to go back): ')
+
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            if 1 <= choice <= len(pieces_list):
+                print('')
+                chosen_piece = pieces_list[choice - 1]
+                instrument_choice = input("Enter the part (instrument) assignment: ")
+                if instrument_choice.strip() == '':
+                    print('')
+                    print(f"\033[1mInstrument (part) must be text with at least 1 character\033[0m")
+                    continue
+
+                print('')
+                Part.create(instrument_choice, chosen_student.id, choice)
+
+                print('')
+                print(f"\033[1mSuccessfully created new Part: {instrument_choice} from {chosen_piece.title} by {chosen_piece.composer}\033[0m") 
+                break
         
-        try:
-            print('')
-            chosen_piece = pieces_list[choice - 1]
-            instrument_choice = input("Enter the part (instrument) assignment: ")
+            else:
+                print('')
+                print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")
 
+        else:
             print('')
-            Part.create(instrument_choice, chosen_student.id, int(choice))
-
-            print('')
-            print(f"\033[1mSuccessfully created new Part: {instrument_choice} from {chosen_piece.title} by {chosen_piece.composer}\033[0m") 
-    
-        except Exception as exc:
-            print('')
-            print(f"\033[1mError updating part:\033[0m", exc)
-            add_part(chosen_student)
-            return
-
-    except ValueError:
-        print('')
-        print((f"\033[1mInvalid Option - Try typing a listed number option\033[0m")) 
-        add_part(chosen_student)
-        return
-    
-    student_menu(chosen_student)
+            print((f"\033[1mInvalid Option - Try typing a listed number option\033[0m")) 
 
 
 def delete_part(chosen_student):
-    try:
+    while True:
         print('')
         print('Choose from the following parts to delete:')
         print('')
-        parts = chosen_student.find_parts()
+        parts = chosen_student.parts()
         for i, part in enumerate(parts, start=1):
-                piece = part.find_piece()
+                piece = part.piece()
                 print(f"{i}. Part: {part.instrument} from {piece.title} by {piece.composer}") 
 
         print('')
         print(f'0. Go back to Student ({chosen_student.first_name} {chosen_student.last_name})')
         print('')
-        choice = int(input('Enter the part number (or 0 to go back): '))
 
-        if choice == 0:
-            student_menu(chosen_student)
-            return
-        if choice > len(parts):
-            raise ValueError
-       
-        try:
-            chosen_part = parts[choice - 1]
-            chosen_part.delete()
+        choice = input('Enter the part number (or 0 to go back): ')
 
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 0:
+                break
+            if 1 <= choice <= len(parts):
+                chosen_part = parts[choice - 1]
+                chosen_part.delete()
+
+                print('')
+                print(f"\033[1mSuccessfully deleted Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m") 
+                break
+        
+            else:
+                print('')
+                print(f"\033[1mInvalid Option - Try typing a listed number option\033[0m")
+
+        else:
             print('')
-            print(f"\033[1mSuccessfully deleted Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m") 
-    
-        except Exception as exc:
-            print('')
-            print(f"\033[1mError deleting part:\033[0m", exc)
-
-    except ValueError:
-        print('')
-        print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  
-        delete_part(chosen_student)
-        return
-    
-    student_menu(chosen_student)
+            print("\033[1mInvalid Option - Try typing a listed number option\033[0m")  

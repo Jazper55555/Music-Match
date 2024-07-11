@@ -69,7 +69,7 @@ def delete_student():
                 chosen_student.delete()
 
                 print('')
-                print(f"\033[1mStudent {student.first_name} {student.last_name} successfully deleted\033[0m")   
+                print(f"\033[1mStudent {chosen_student.first_name} {chosen_student.last_name} successfully deleted\033[0m")   
                 break
 
             else:

@@ -145,9 +145,8 @@ class Part:
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-    # piece() method
-    # part.piece()
-    def find_piece(self):
+
+    def piece(self):
         from models.piece import Piece
         sql = '''
             SELECT *
@@ -156,24 +155,3 @@ class Part:
 
         row = CURSOR.execute(sql, (self.piece_id,)).fetchone()
         return Piece.instance_from_db(row) if row else None
-
-
-    # @classmethod
-    # def student_parts(cls, student_id):
-    #     sql = '''
-    #         SELECT *
-    #         FROM parts
-    #         WHERE student_id = ?'''
-        
-    #     rows = CURSOR.execute(sql, (student_id,)).fetchall()
-    #     return [cls.instance_from_db(row) for row in rows]
-    
-    # @classmethod
-    # def find_by_student_and_piece_id(cls, student_id, piece_id):
-    #     sql = '''
-    #         SELECT *
-    #         FROM parts
-    #         WHERE student_id = ? and piece_id = ?'''
-        
-    #     row = CURSOR.execute(sql, (student_id, piece_id)).fetchone()
-    #     return cls.instance_from_db(row) if row else None

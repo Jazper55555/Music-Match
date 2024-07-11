@@ -150,8 +150,7 @@ class Student:
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
     
-    def find_parts(self):
-        # change find_parts to parts
+    def parts(self):
         from models.part import Part
         sql = '''
             SELECT *
@@ -160,35 +159,4 @@ class Student:
         
         rows = CURSOR.execute(sql, (self.id,)).fetchall()
         return [Part.instance_from_db(row) for row in rows]
-
-
-    # @classmethod
-    # def find_by_first_name(cls, first_name):
-    #     sql = '''
-    #         SELECT *
-    #         FROM students
-    #         WHERE first_name is ?'''
-        
-    #     row = CURSOR.execute(sql, (first_name,)).fetchone()
-    #     return cls.instance_from_db(row) if row else None
-    
-    # @classmethod
-    # def find_by_last_name(cls, last_name):
-    #     sql = '''
-    #         SELECT *
-    #         FROM students
-    #         WHERE last_name is ?'''
-        
-    #     row = CURSOR.execute(sql, (last_name,)).fetchone()
-    #     return cls.instance_from_db(row) if row else None
-    
-    # @classmethod
-    # def find_by_grade(cls, grade):
-    #     sql = '''
-    #         SELECT *
-    #         FROM students
-    #         WHERE grade = ?'''
-        
-    #     row = CURSOR.execute(sql, (grade,)).fetchone()
-    #     return cls.instance_from_db(row) if row else None
     

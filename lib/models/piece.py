@@ -92,6 +92,13 @@ class Piece:
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
+        sql_parts = '''
+            DELETE FROM parts
+            WHERE piece_id = ?'''
+        
+        CURSOR.execute(sql_parts, (self.id,))
+        CONN.commit()
+
         del type(self).all[self.id]
         self.id = None
 
@@ -126,24 +133,3 @@ class Piece:
         
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
-    
-
-    # @classmethod
-    # def find_by_title(cls, title):
-    #     sql = '''
-    #         SELECT *
-    #         FROM pieces
-    #         WHERE title is ?'''
-        
-    #     rows = CURSOR.execute(sql, (title,)).fetchall()
-    #     return [cls.instance_from_db(row) for row in rows]
-    
-    # @classmethod
-    # def find_by_composer(cls, composer):
-    #     sql = '''
-    #         SELECT *
-    #         FROM pieces
-    #         WHERE composer is ?'''
-        
-    #     rows = CURSOR.execute(sql, (composer,)).fetchall()
-    #     return [cls.instance_from_db(row) for row in rows]
