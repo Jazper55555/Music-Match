@@ -25,6 +25,16 @@ def greeting():
     print('Please select an option below (using the # pad) to get started:')
     print('')
 
+    
+def menu():
+    print(Figlet(font='mini').renderText('Main Menu'))
+    print("1. Students")
+    print("")
+    print("2. Pieces")
+    print("")
+    print("3. Exit the program")
+    print('')
+
 
 def main():
     option = 0
@@ -84,16 +94,6 @@ def main():
             print('')
             print("\033[1mInvalid Option - Try typing a listed number option\033[0m")
             print('')
-
-
-def menu():
-    print(Figlet(font='mini').renderText('Main Menu'))
-    print("1. Students")
-    print("")
-    print("2. Pieces")
-    print("")
-    print("3. Exit the program")
-    print('')
 
 
 def exit_program():
