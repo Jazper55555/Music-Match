@@ -154,7 +154,7 @@ def update_part(chosen_student):
                 chosen_part.update()
 
                 print('')
-                print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument} from {piece.title} by {piece.composer}\033[0m")   
+                print(f"\033[1mSuccessfully updated Part: {chosen_part.instrument}\033[0m")   
                 break
 
             else:
